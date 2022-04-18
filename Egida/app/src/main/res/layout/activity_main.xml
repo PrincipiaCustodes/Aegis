@@ -8,11 +8,12 @@
     android:background="@color/background_color">
 
     <soup.neumorphism.NeumorphButton
+        android:id="@+id/neumorphButton"
+        style="@style/Widget.Neumorph.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
         android:textColor="@color/text_color"
-        style="@style/Widget.Neumorph.Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
