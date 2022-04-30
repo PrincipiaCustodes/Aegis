@@ -7,12 +7,21 @@
     tools:context=".MainActivity"
     android:background="@color/background_color">
 
+    <TextView
+        android:id="@+id/authStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/authBtn" />
+
     <soup.neumorphism.NeumorphButton
-        android:id="@+id/neumorphButton"
+        android:id="@+id/authBtn"
         style="@style/Widget.Neumorph.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Auth"
         android:textColor="@color/text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
