@@ -3,8 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Egida/Egida/app/src/main/res/drawable/custom_appbar_top_background.xml" value="0.1095" />
+        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Egida/Egida/app/src/main/res/drawable/custom_bottom_navigation_background.xml" value="0.1095" />
+        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Egida/Egida/app/src/main/res/drawable/ic_dataset.xml" value="0.1095" />
         <entry key="..\:/Users/Acer/Documents/AndroidProjects/Egida/Egida/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Acer/Documents/AndroidProjects/Egida/Egida/app/src/main/res/layout/activity_main2.xml" value="0.18" />
+        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Egida/Egida/app/src/main/res/layout/appbar_top.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Egida/Egida/app/src/main/res/layout/fragment_add.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Egida/Egida/app/src/main/res/layout/fragment_delete.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Egida/Egida/app/src/main/res/layout/fragment_launcher.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/konar/Desktop/samsung/Egida/Egida/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
       </map>
     </option>

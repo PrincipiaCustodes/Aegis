@@ -8,9 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    // test color for soft UI
     <color name="text_color">#1E4175</color>
-    <color name="background_color">#ecf0f3</color>
+    <color name="background_color_for_softUi">#ecf0f3</color>
     <color name="highlight">#ffffff</color>
     <color name="shadow_color">#d9dbde</color>
+
+    <!-- my colors -->
+    <color name="background_color">#F1F2F4</color>
 </resources>
