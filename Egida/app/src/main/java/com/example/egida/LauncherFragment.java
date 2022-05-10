@@ -19,8 +19,6 @@ public class LauncherFragment extends Fragment {
     Button testButton;
     TextView testText;
 
-    public boolean authResult = false;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +34,7 @@ public class LauncherFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Biometrics biometrics = new Biometrics();
-                biometrics.biometricsPrompt(getActivity());
+                biometrics.biometricsPrompt(getActivity(), TestActivity.class);
             }
         });
 

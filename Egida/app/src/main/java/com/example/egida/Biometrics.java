@@ -1,6 +1,8 @@
 package com.example.egida;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,7 +12,9 @@ import androidx.annotation.RequiresApi;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
@@ -20,7 +24,17 @@ public class Biometrics {
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
 
-    boolean authResult = false;
+    private void nextOpen(Context currentContext, Class nextClass){
+        Intent intent = new Intent(currentContext, nextClass);
+        currentContext.startActivity(intent);
+    }
+
+    private void nextOpen(Activity currentActivity, int id, Fragment nextFragment){
+        int ft = ((FragmentActivity)currentActivity).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(id, nextFragment)
+                .commit();
+    }
 
     private void checkConditionals(Context currentContext){
         BiometricManager biometricManager = BiometricManager.from(currentContext);
@@ -41,7 +55,7 @@ public class Biometrics {
         }
     }
 
-    public void biometricsPrompt(Context currentContext){
+    public void biometricsPrompt(Context currentContext, Class nextClass){
         Log.d("auth", "start biometricPrompt method");
         executor = ContextCompat.getMainExecutor(currentContext);
         biometricPrompt = new BiometricPrompt((FragmentActivity) currentContext, executor, new BiometricPrompt.AuthenticationCallback() {
@@ -52,13 +66,12 @@ public class Biometrics {
                         "Authentication error: " + errString, Toast.LENGTH_SHORT).show();
             }
 
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 Toast.makeText(currentContext,
                         "Authentication succeeded!", Toast.LENGTH_SHORT).show();
-                authResult = true;
+                nextOpen(currentContext, nextClass);
             }
 
             @Override
