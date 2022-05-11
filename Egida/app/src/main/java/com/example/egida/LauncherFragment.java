@@ -1,25 +1,19 @@
 package com.example.egida;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class LauncherFragment extends Fragment {
 
     Button testButton;
     TextView testText;
-
-    public boolean authResult = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +30,9 @@ public class LauncherFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Biometrics biometrics = new Biometrics();
-                biometrics.biometricsPrompt(getActivity());
+                biometrics.checkConditionals(getActivity().getApplicationContext(), getActivity());
+                biometrics.biometricsPrompt(getActivity(), TestActivity.class, getActivity(),
+                        R.id.container_for_fragments, new AddFragment(), "activity");
             }
         });
 
