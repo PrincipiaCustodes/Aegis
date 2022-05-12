@@ -20,4 +20,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <string name="biometrics_signUp_state_1">You can use biometrics</string>
+    <string name="biometrics_signUp_state_2">You can use biometrics, but you don\'t have saved security data, please check your security settings</string>
 </resources>
