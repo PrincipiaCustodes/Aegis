@@ -85,14 +85,17 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/about_biometric_textField"
-        style="@style/main_body"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/about_biometric_textButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:background="@drawable/custom_signup_button_background"
+        android:fontFamily="@font/roboto_bold"
         android:text="You can use biometric"
-        android:textColor="@color/my_red"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,6 +110,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/about_biometric_textField" />
+        app:layout_constraintTop_toBottomOf="@+id/about_biometric_textButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

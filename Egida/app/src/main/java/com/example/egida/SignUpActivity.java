@@ -27,7 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
     private BiometricPrompt.PromptInfo promptInfo;
 
     private Button signUpButton;
-    private TextView infoBiometrics;
+    private Button infoBiometrics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         signUpButton = findViewById(R.id.signup_btn);
-        infoBiometrics = findViewById(R.id.about_biometric_textField);
+        infoBiometrics = findViewById(R.id.about_biometric_textButton);
 
         BiometricManager biometricManager = BiometricManager.from(getApplicationContext());
         switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {
