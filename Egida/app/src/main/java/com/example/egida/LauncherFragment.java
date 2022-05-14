@@ -1,5 +1,8 @@
 package com.example.egida;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +17,9 @@ public class LauncherFragment extends Fragment {
 
     Button testButton;
     TextView testText;
+    SharedPreferences sPref;
+
+    final String PREF_TAG = "nickname";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,12 @@ public class LauncherFragment extends Fragment {
         testButton = view.findViewById(R.id.test_btn);
         testText = view.findViewById(R.id.test_text);
 
+        sPref = getActivity().getSharedPreferences("Pref", Context.MODE_PRIVATE);
+
+        String savedText = sPref.getString(PREF_TAG, ",kz");
+
+        testText.setText(savedText);
+
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,5 +49,9 @@ public class LauncherFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void getNickname(){
+
     }
 }
