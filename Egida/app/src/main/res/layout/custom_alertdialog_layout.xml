@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_alertdialog_background"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/alertDialog_image"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_helmet" />
+
+    <TextView
+        android:id="@+id/alertDialog_tittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You can use biometrics"
+        style="@style/menu_headline"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alertDialog_image" />
+
+    <TextView
+        android:id="@+id/alertDialog_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This data will use for confirm action and login in app"
+        android:gravity="center"
+        style="@style/main_body"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alertDialog_tittle" />
+
+    <TextView
+        android:id="@+id/alertDialog_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you want use your biometrics data?"
+        android:gravity="center"
+        style="@style/main_body"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alertDialog_description" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/alertDialog_no"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_appbar_top_background"
+        android:text="No. Use password"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:fontFamily="@font/diogenes"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alertDialog_question"
+        app:layout_constraintWidth_percent="0.48" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/alertDialog_ok"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_appbar_top_background"
+        android:text="Yes, I do"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:fontFamily="@font/diogenes"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alertDialog_question"
+        app:layout_constraintWidth_percent="0.48" />
+</androidx.constraintlayout.widget.ConstraintLayout>
