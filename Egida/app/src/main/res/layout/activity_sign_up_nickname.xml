@@ -55,7 +55,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:id="@+id/next_btn1"
+        android:id="@+id/next_btn_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,21 +63,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nickname_input_layout"
         app:srcCompat="@drawable/ic_next" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="load"
-        app:layout_constraintBottom_toTopOf="@+id/next_btn1"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="save"
-        app:layout_constraintBottom_toTopOf="@+id/next_btn1"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

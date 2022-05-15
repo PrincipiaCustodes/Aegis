@@ -17,9 +17,9 @@ public class LauncherFragment extends Fragment {
 
     Button testButton;
     TextView testText;
-    SharedPreferences sPref;
 
-    final String PREF_TAG = "nickname";
+    private SharedPreferences sharedPref;
+    final private String PREF_TAG = "nickname";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,11 +32,8 @@ public class LauncherFragment extends Fragment {
         testButton = view.findViewById(R.id.test_btn);
         testText = view.findViewById(R.id.test_text);
 
-        sPref = getActivity().getSharedPreferences("Pref", Context.MODE_PRIVATE);
+        testText.setText(getNickname());
 
-        String savedText = sPref.getString(PREF_TAG, ",kz");
-
-        testText.setText(savedText);
 
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +48,8 @@ public class LauncherFragment extends Fragment {
         return view;
     }
 
-    private void getNickname(){
-
+    private String getNickname(){
+        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
+        return sharedPref.getString(PREF_TAG, "error");
     }
 }
