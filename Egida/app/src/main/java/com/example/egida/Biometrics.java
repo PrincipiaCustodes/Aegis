@@ -20,21 +20,8 @@ public class Biometrics {
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
 
-    // for open next activity
-    private void nextOpen(Context currentContext, Class nextClass){
-        Intent intent = new Intent(currentContext, nextClass);
-        currentContext.startActivity(intent);
-    }
-
-    // for open next fragment
-    private void nextOpen(Activity currentActivity, int id, Fragment nextFragment){
-        ((FragmentActivity)currentActivity).getSupportFragmentManager()
-                .beginTransaction()
-                .replace(id, nextFragment)
-                .commit();
-    }
-
-    public void biometricsPrompt(Context currentContext, Class nextClass, Activity currentActivity, int id, Fragment nextFragment, String type){
+    // для открытия активностей
+    public void biometricsPrompt(Context currentContext, Class nextClass){
         Log.d("auth", "start biometricPrompt method");
         executor = ContextCompat.getMainExecutor(currentContext);
         biometricPrompt = new BiometricPrompt((FragmentActivity) currentContext, executor, new BiometricPrompt.AuthenticationCallback() {
@@ -51,12 +38,8 @@ public class Biometrics {
                 Toast.makeText(currentContext,
                         "Authentication succeeded!", Toast.LENGTH_SHORT).show();
 
-                // what open next? activity or fragment
-                if(type.equals("activity")){
-                    nextOpen(currentContext, nextClass);
-                } else if (type.equals("fragment")){
-                    nextOpen(currentActivity, id, nextFragment);
-                }
+                Intent intent = new Intent(currentContext, nextClass);
+                currentContext.startActivity(intent);
             }
 
             @Override
@@ -66,7 +49,44 @@ public class Biometrics {
             }
         });
 
-        // setup auth dialog
+        setupAuthDialog();
+    }
+
+    // для открытия фрагментов
+    public void biometricsPrompt(Context currentContext, int id, Fragment nextFragment){
+        Log.d("auth", "start biometricPrompt method");
+        executor = ContextCompat.getMainExecutor(currentContext);
+        biometricPrompt = new BiometricPrompt((FragmentActivity) currentContext, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(currentContext,
+                        "Authentication error: " + errString, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Toast.makeText(currentContext,
+                        "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+
+                ((FragmentActivity)currentContext).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(id, nextFragment)
+                        .commit();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(currentContext, "Authentication failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        setupAuthDialog();
+    }
+
+    private void setupAuthDialog(){
         promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Tittle | Biometric authentication")
                 .setSubtitle("SubTittle | Fingerprint or face")

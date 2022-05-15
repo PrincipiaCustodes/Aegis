@@ -22,7 +22,7 @@ public class SplashScreen extends AppCompatActivity {
         if(isFirstStart){
             startNextActivity(SignUpActivity.class);
         } else {
-            startNextActivity(MainActivity.class);
+            startNextActivity(LogInActivity.class);
         }
     }
 

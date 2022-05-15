@@ -34,8 +34,8 @@ public class SignUpPasswordFragment extends Fragment {
     private Button alertDialogNoButton;
 
     private SharedPreferences sharedPref;
-    final private String PASSWORD_PREF_TAG = "password";
-    final private String BIOMETRICS_PREF_TAG = "security_status";
+    private static final String PASSWORD_PREF_TAG = "password";
+    private static final String SECURITY_STATUS_PREF_TAG = "security_status";
 
     Dialog dialog;
 
@@ -69,8 +69,7 @@ public class SignUpPasswordFragment extends Fragment {
                     saveSecurityStatus("use biometrics");
                     savePassword();
                     Biometrics biometrics = new Biometrics();
-                    biometrics.biometricsPrompt(getActivity(), MainActivity.class, getActivity(),
-                            R.id.container_for_fragments, new AddFragment(), "activity");
+                    biometrics.biometricsPrompt(getActivity(), MainActivity.class);
                 }
             });
 
@@ -152,7 +151,7 @@ public class SignUpPasswordFragment extends Fragment {
     private void saveSecurityStatus(String status){
         sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(BIOMETRICS_PREF_TAG, status);
+        editor.putString(SECURITY_STATUS_PREF_TAG, status);
         editor.commit();
         Toast.makeText(getActivity().getApplicationContext(), "Security is done!", Toast.LENGTH_SHORT).show();
     }

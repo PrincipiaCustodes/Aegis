@@ -19,7 +19,7 @@ public class SignUpNicknameFragment extends Fragment {
     private EditText nickname;
 
     private SharedPreferences sharedPref;
-    final private String PREF_TAG = "nickname";
+    private static final String NICKNAME_PREF_TAG = "nickname";
 
     @Override
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
@@ -51,7 +51,7 @@ public class SignUpNicknameFragment extends Fragment {
     private void saveNickname() {
         sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(PREF_TAG, nickname.getText().toString());
+        editor.putString(NICKNAME_PREF_TAG, nickname.getText().toString());
         editor.commit();
         Toast.makeText(getActivity().getApplicationContext(), "Nickname: " + nickname.getText().toString(), Toast.LENGTH_SHORT).show();
     }
