@@ -78,8 +78,6 @@ public class SignUpPasswordFragment extends Fragment {
             });
         }
 
-        dialog.show();
-
         BiometricManager biometricManager = BiometricManager.from(getActivity().getApplicationContext());
         switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
