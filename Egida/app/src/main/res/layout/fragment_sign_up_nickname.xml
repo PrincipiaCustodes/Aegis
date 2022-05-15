@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".SignUpNicknameActivity">
+    tools:context=".SignUpNicknameFragment">
 
     <ImageView
         android:id="@+id/signup_image"
@@ -19,7 +20,7 @@
         app:srcCompat="@drawable/crest" />
 
     <TextView
-        android:id="@+id/about_password"
+        android:id="@+id/about_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -28,35 +29,39 @@
         app:layout_constraintTop_toBottomOf="@+id/signup_image" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password_input_layout"
+        android:id="@+id/nickname_input_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:hint="Password"
+        android:hint="Nickname"
         app:counterEnabled="true"
-        app:counterMaxLength="50"
-        app:endIconMode="password_toggle"
-        app:layout_constraintTop_toBottomOf="@+id/about_password"
-        app:startIconDrawable="@drawable/ic_lock">
+        app:counterMaxLength="20"
+        app:endIconMode="clear_text"
+        app:helperText="Required*"
+        app:helperTextTextColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_nickname"
+        app:startIconDrawable="@drawable/ic_person">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password_input_textField"
+            android:id="@+id/nickname_input_textField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="50" />
+            android:maxLength="20" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:id="@+id/next_btn"
+        android:id="@+id/next_btn_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_input_layout"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_input_layout"
         app:srcCompat="@drawable/ic_next" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
