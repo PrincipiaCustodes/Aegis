@@ -1,18 +1,22 @@
 package com.example.egida;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.security.NoSuchAlgorithmException;
 
-public class SignUpPasswordActivity extends AppCompatActivity {
+public class SignUpPasswordFragment extends Fragment {
 
     private ImageView nextButton;
     private EditText password;
@@ -21,12 +25,14 @@ public class SignUpPasswordActivity extends AppCompatActivity {
     final private String PREF_TAG = "password";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up_password);
+    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
 
-        nextButton = findViewById(R.id.next_btn);
-        password = findViewById(R.id.password_input_textField);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_sign_up_password, container, false);
+
+        nextButton = view.findViewById(R.id.next_btn);
+        password = view.findViewById(R.id.password_input_textField);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,17 +42,19 @@ public class SignUpPasswordActivity extends AppCompatActivity {
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
+
+        return view;
     }
 
     private void savePassword() throws NoSuchAlgorithmException {
-        sharedPref = getSharedPreferences("PreferencesFile", MODE_PRIVATE);
+        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(PREF_TAG, new ShaEncoder(password.getText().toString()).sha256EncodeInput());
         editor.commit();
-        Toast.makeText(getApplicationContext(), "password saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), "password saved", Toast.LENGTH_SHORT).show();
     }
 }
