@@ -34,10 +34,14 @@ public class SignUpNicknameFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveNickname();
-                Toast.makeText(getActivity().getApplicationContext(), "text: " + nickname.getText().toString(), Toast.LENGTH_SHORT).show();
-                SignUpPasswordFragment signUpPasswordActivity = new SignUpPasswordFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.signup_fragment_container, signUpPasswordActivity).commit();
+                if(!nickname.getText().toString().equals("")) {
+                    saveNickname();
+                    SignUpPasswordFragment signUpPasswordActivity = new SignUpPasswordFragment();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.signup_fragment_container, signUpPasswordActivity).commit();
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Enter the nickname!", Toast.LENGTH_SHORT)
+                            .show();
+                }
             }
         });
 
@@ -49,6 +53,6 @@ public class SignUpNicknameFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(PREF_TAG, nickname.getText().toString());
         editor.commit();
-        Toast.makeText(getActivity().getApplicationContext(), "nickname: " + nickname.getText().toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), "Nickname: " + nickname.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 }

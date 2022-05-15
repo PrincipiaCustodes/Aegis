@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +66,7 @@ public class SignUpPasswordFragment extends Fragment {
             alertDialogOkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    savePassword();
                     Biometrics biometrics = new Biometrics();
                     biometrics.biometricsPrompt(getActivity(), MainActivity.class, getActivity(),
                             R.id.container_for_fragments, new AddFragment(), "activity");
@@ -104,24 +107,39 @@ public class SignUpPasswordFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    savePassword();
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
+                if(!password.getText().toString().equals("")) {
+                    try {
+                        savePassword(password.getText().toString());
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Enter the password!", Toast.LENGTH_SHORT)
+                            .show();
                 }
-                Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
-                startActivity(intent);
             }
         });
 
         return view;
     }
 
-    private void savePassword() throws NoSuchAlgorithmException {
+    private void savePassword(String password) throws NoSuchAlgorithmException {
         sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(PASSWORD_PREF_TAG, new ShaEncoder(password.getText().toString()).sha256EncodeInput());
+        Log.d("Test", "password: " + password);
+        editor.putString(PASSWORD_PREF_TAG, new ShaEncoder(password).sha256EncodeInput());
         editor.commit();
-        Toast.makeText(getActivity().getApplicationContext(), "password saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), "Password saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void savePassword() {
+        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        Log.d("Test", "password: " + password);
+        editor.putString(PASSWORD_PREF_TAG, "");
+        editor.commit();
+        Toast.makeText(getActivity().getApplicationContext(), "Password saved", Toast.LENGTH_SHORT).show();
     }
 }

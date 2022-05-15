@@ -37,13 +37,6 @@ public class LauncherFragment extends Fragment {
 
         testText.setText(getNickname());
 
-        ShaEncoder encoder = new ShaEncoder(getNickname());
-        try {
-            Log.d("Test", "Hash: " + encoder.sha256EncodeInput());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
