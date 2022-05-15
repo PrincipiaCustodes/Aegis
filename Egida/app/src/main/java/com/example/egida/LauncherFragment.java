@@ -7,11 +7,14 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.security.NoSuchAlgorithmException;
 
 public class LauncherFragment extends Fragment {
 
@@ -34,6 +37,12 @@ public class LauncherFragment extends Fragment {
 
         testText.setText(getNickname());
 
+        ShaEncoder encoder = new ShaEncoder(getNickname());
+        try {
+            Log.d("Test", "Hash: " + encoder.sha256EncodeInput());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
