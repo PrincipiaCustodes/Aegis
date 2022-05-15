@@ -10,7 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Egida">
         <activity
+            android:name=".LogInActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpNicknameActivity"
             android:exported="false" />
         <activity
             android:name=".TestActivity"

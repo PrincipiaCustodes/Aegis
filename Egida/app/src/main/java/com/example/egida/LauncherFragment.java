@@ -1,19 +1,29 @@
 package com.example.egida;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.security.NoSuchAlgorithmException;
+
 public class LauncherFragment extends Fragment {
 
     Button testButton;
     TextView testText;
+
+    private SharedPreferences sharedPref;
+    private static final String NICKNAME_PREF_TAG = "nickname";
+    private static final String SECURITY_STATUS_PREF_TAG = "security_status";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,16 +36,31 @@ public class LauncherFragment extends Fragment {
         testButton = view.findViewById(R.id.test_btn);
         testText = view.findViewById(R.id.test_text);
 
+        testText.setText(getNickname());
+
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Biometrics biometrics = new Biometrics();
-                biometrics.checkConditionals(getActivity().getApplicationContext(), getActivity());
-                biometrics.biometricsPrompt(getActivity(), TestActivity.class, getActivity(),
-                        R.id.container_for_fragments, new AddFragment(), "activity");
+                if(getSecurityStatus().equals("use biometrics")){
+                    Biometrics biometrics = new Biometrics();
+                    biometrics.biometricsPrompt(getContext(), R.id.container_for_fragments, new AddFragment());
+                } else {
+                    Password password = new Password(getContext());
+                    password.nextOpen(getContext(), TestActivity.class);
+                }
             }
         });
 
         return view;
+    }
+
+    private String getNickname(){
+        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
+        return sharedPref.getString(NICKNAME_PREF_TAG, "error");
+    }
+
+    private String getSecurityStatus(){
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
+        return sharedPref.getString(SECURITY_STATUS_PREF_TAG, "security_status_error");
     }
 }
