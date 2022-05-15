@@ -35,7 +35,7 @@ public class SignUpPasswordFragment extends Fragment {
 
     private SharedPreferences sharedPref;
     final private String PASSWORD_PREF_TAG = "password";
-    final private String BIOMETRICS_PREF_TAG = "biometrics_status";
+    final private String BIOMETRICS_PREF_TAG = "security_status";
 
     Dialog dialog;
 
@@ -66,6 +66,7 @@ public class SignUpPasswordFragment extends Fragment {
             alertDialogOkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    saveSecurityStatus("use biometrics");
                     savePassword();
                     Biometrics biometrics = new Biometrics();
                     biometrics.biometricsPrompt(getActivity(), MainActivity.class, getActivity(),
@@ -94,6 +95,7 @@ public class SignUpPasswordFragment extends Fragment {
                 alertDialogOkButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        saveSecurityStatus("need check phone security settings");
                         getActivity().finish();
                     }
                 });
@@ -109,6 +111,7 @@ public class SignUpPasswordFragment extends Fragment {
             public void onClick(View view) {
                 if(!password.getText().toString().equals("")) {
                     try {
+                        saveSecurityStatus("use password");
                         savePassword(password.getText().toString());
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();
@@ -125,6 +128,7 @@ public class SignUpPasswordFragment extends Fragment {
         return view;
     }
 
+    // сохраняем пароль, если он будет использоваться
     private void savePassword(String password) throws NoSuchAlgorithmException {
         sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -134,6 +138,7 @@ public class SignUpPasswordFragment extends Fragment {
         Toast.makeText(getActivity().getApplicationContext(), "Password saved", Toast.LENGTH_SHORT).show();
     }
 
+    // сохраняем "" в поле пароля, если он не будет использоваться
     private void savePassword() {
         sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -141,5 +146,14 @@ public class SignUpPasswordFragment extends Fragment {
         editor.putString(PASSWORD_PREF_TAG, "");
         editor.commit();
         Toast.makeText(getActivity().getApplicationContext(), "Password saved", Toast.LENGTH_SHORT).show();
+    }
+
+    // сохранение статуса (уровня / состояния) безопасности
+    private void saveSecurityStatus(String status){
+        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(BIOMETRICS_PREF_TAG, status);
+        editor.commit();
+        Toast.makeText(getActivity().getApplicationContext(), "Security is done!", Toast.LENGTH_SHORT).show();
     }
 }
