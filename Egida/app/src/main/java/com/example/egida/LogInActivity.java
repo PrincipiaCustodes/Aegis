@@ -46,7 +46,6 @@ public class LogInActivity extends AppCompatActivity {
                     try {
                         if((new ShaEncoder(password.getText().toString()).sha256EncodeInput()).equals(getPassword())){
                             Toast.makeText(getApplicationContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
-                            Context context = LogInActivity.this;
                             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();

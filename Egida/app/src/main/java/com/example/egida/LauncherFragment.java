@@ -22,7 +22,8 @@ public class LauncherFragment extends Fragment {
     TextView testText;
 
     private SharedPreferences sharedPref;
-    final private String PREF_TAG = "nickname";
+    private static final String NICKNAME_PREF_TAG = "nickname";
+    private static final String SECURITY_STATUS_PREF_TAG = "security_status";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,13 @@ public class LauncherFragment extends Fragment {
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Biometrics biometrics = new Biometrics();
-                biometrics.biometricsPrompt(getContext(), R.id.container_for_fragments, new AddFragment());
+                if(getSecurityStatus().equals("use biometrics")){
+                    Biometrics biometrics = new Biometrics();
+                    biometrics.biometricsPrompt(getContext(), R.id.container_for_fragments, new AddFragment());
+                } else {
+                    Password password = new Password(getContext());
+                    password.nextOpen(getContext(), TestActivity.class);
+                }
             }
         });
 
@@ -50,6 +56,11 @@ public class LauncherFragment extends Fragment {
 
     private String getNickname(){
         sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
-        return sharedPref.getString(PREF_TAG, "error");
+        return sharedPref.getString(NICKNAME_PREF_TAG, "error");
+    }
+
+    private String getSecurityStatus(){
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
+        return sharedPref.getString(SECURITY_STATUS_PREF_TAG, "security_status_error");
     }
 }

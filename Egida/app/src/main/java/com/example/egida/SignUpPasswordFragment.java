@@ -5,7 +5,6 @@ import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTI
 
 import androidx.biometric.BiometricManager;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,7 +13,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +58,8 @@ public class SignUpPasswordFragment extends Fragment {
             dialog.setCancelable(false);   // устанавливает можно ли отменить диалог клавишей "назад"
             dialog.getWindow().getAttributes().windowAnimations = R.style.custom_alertdialog_animation; // анимация для диалога
 
-            alertDialogOkButton = dialog.findViewById(R.id.alertDialog_ok);
-            alertDialogNoButton = dialog.findViewById(R.id.alertDialog_no);
+            alertDialogOkButton = dialog.findViewById(R.id.password_alertDialog_ok);
+            alertDialogNoButton = dialog.findViewById(R.id.password_alertDialog_no);
 
             alertDialogOkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,7 +85,7 @@ public class SignUpPasswordFragment extends Fragment {
                 dialog.show();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                TextView dialogTittle = dialog.findViewById(R.id.alertDialog_tittle);
+                TextView dialogTittle = dialog.findViewById(R.id.password_alertDialog_tittle);
                 dialogTittle.setText("You can use biometrics, but you don't have saved fingerprint or face. " +
                         "Please, check security settings of your phone");
 

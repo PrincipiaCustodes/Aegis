@@ -1,7 +1,6 @@
 package com.example.egida;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -20,6 +19,24 @@ public class Biometrics {
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
 
+    // для настройки вида диалога
+    private String dialogTittle;
+    private String dialogSubTittle;
+    private String dialogDescription;
+    private String dialogNegativeButtonText;
+
+
+    public void setupAuthDialog(){
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Authentication")
+                .setSubtitle("Please verify your identity to continue")
+                .setDescription("Use fingerprint or face")
+                .setNegativeButtonText("Cancel")
+                .build();
+
+        biometricPrompt.authenticate(promptInfo);
+    }
+
     // для открытия активностей
     public void biometricsPrompt(Context currentContext, Class nextClass){
         Log.d("auth", "start biometricPrompt method");
@@ -36,7 +53,7 @@ public class Biometrics {
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 Toast.makeText(currentContext,
-                        "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+                        "Authentication successful!", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(currentContext, nextClass);
                 currentContext.startActivity(intent);
@@ -68,7 +85,7 @@ public class Biometrics {
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 Toast.makeText(currentContext,
-                        "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+                        "Authentication successful!", Toast.LENGTH_SHORT).show();
 
                 ((FragmentActivity)currentContext).getSupportFragmentManager()
                         .beginTransaction()
@@ -84,16 +101,5 @@ public class Biometrics {
         });
 
         setupAuthDialog();
-    }
-
-    private void setupAuthDialog(){
-        promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Tittle | Biometric authentication")
-                .setSubtitle("SubTittle | Fingerprint or face")
-                .setDescription("Description")
-                .setNegativeButtonText("Cancel")
-                .build();
-
-        biometricPrompt.authenticate(promptInfo);
     }
 }
