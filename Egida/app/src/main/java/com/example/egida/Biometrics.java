@@ -1,7 +1,5 @@
 package com.example.egida;
 
-import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG;
-import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +8,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -35,29 +32,6 @@ public class Biometrics {
                 .beginTransaction()
                 .replace(id, nextFragment)
                 .commit();
-    }
-
-    // hardware and settings check
-    public void checkConditionals(Context currentContext, Activity currentActivity){
-        BiometricManager biometricManager = BiometricManager.from(currentContext);
-        switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {
-            case BiometricManager.BIOMETRIC_SUCCESS:
-                Toast.makeText(currentContext, "You can use biometrics", Toast.LENGTH_SHORT).show();
-                break;
-            case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
-                AlertDialogFragment alertDialog1 = new AlertDialogFragment("Warning!",
-                        "This device don't have sensors", "OK", "NO");
-                alertDialog1.show(((FragmentActivity)currentActivity).getSupportFragmentManager(), "alertDialog1");
-                break;
-            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                Toast.makeText(currentContext,
-                        "You don't have saved fingerprints or face, check your security settings", Toast.LENGTH_SHORT).show();
-                AlertDialogFragment alertDialog2 = new AlertDialogFragment("Warning!",
-                        "You don't have saved fingerprints or face, check your security settings",
-                        "OK", "NO");
-                alertDialog2.show(((FragmentActivity)currentActivity).getSupportFragmentManager(), "alertDialog1");
-                break;
-        }
     }
 
     public void biometricsPrompt(Context currentContext, Class nextClass, Activity currentActivity, int id, Fragment nextFragment, String type){

@@ -41,7 +41,6 @@ public class LauncherFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Biometrics biometrics = new Biometrics();
-                biometrics.checkConditionals(getActivity().getApplicationContext(), getActivity());
                 biometrics.biometricsPrompt(getActivity(), TestActivity.class, getActivity(),
                         R.id.container_for_fragments, new AddFragment(), "activity");
             }
