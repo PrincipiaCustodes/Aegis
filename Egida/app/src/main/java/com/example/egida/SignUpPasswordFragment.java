@@ -1,6 +1,5 @@
 package com.example.egida;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
@@ -29,7 +28,7 @@ public class SignUpPasswordFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_sign_up_password, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_up_password, container, false);
 
         nextButton = view.findViewById(R.id.next_btn);
         password = view.findViewById(R.id.password_input_textField);

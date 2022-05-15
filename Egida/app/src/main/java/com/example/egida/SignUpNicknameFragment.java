@@ -1,16 +1,13 @@
 package com.example.egida;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -29,7 +26,7 @@ public class SignUpNicknameFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_sign_up_nickname, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_up_nickname, container, false);
 
         nextButton = view.findViewById(R.id.next_btn_nickname);
         nickname = view.findViewById(R.id.nickname_input_textField);
