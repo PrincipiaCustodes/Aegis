@@ -42,11 +42,20 @@ public class LauncherFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(getSecurityStatus().equals("use biometrics")){
-                    Biometrics biometrics = new Biometrics();
-                    biometrics.biometricsPrompt(getContext(), R.id.container_for_fragments, new AddFragment());
+                    Biometrics biometrics = new Biometrics() {
+                        @Override
+                        public void nextAction() {
+                            testText.setBackgroundColor(getActivity().getResources().getColor(R.color.my_red));
+                        }
+                    };
+                    biometrics.biometricsPrompt(getContext());
                 } else {
-                    Password password = new Password(getContext());
-                    password.nextOpen(getContext(), TestActivity.class);
+                    Password password = new Password(getContext()) {
+                        @Override
+                        public void nextAction() {
+                            testText.setBackgroundColor(getActivity().getResources().getColor(R.color.teal_700));
+                        }
+                    };
                 }
             }
         });

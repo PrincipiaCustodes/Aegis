@@ -37,8 +37,15 @@ public class LogInActivity extends AppCompatActivity {
         helloText.setText("Glad to see you again, " + getNickname());
 
         if(getSecurityStatus().equals("use biometrics")){
-            Biometrics biometrics = new Biometrics();
-            biometrics.biometricsPrompt(LogInActivity.this, MainActivity.class);
+            Biometrics biometrics = new Biometrics() {
+                @Override
+                public void nextAction() {
+                    Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            };
+            biometrics.biometricsPrompt(this);
         } else {
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override

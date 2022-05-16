@@ -66,8 +66,16 @@ public class SignUpPasswordFragment extends Fragment {
                 public void onClick(View view) {
                     saveSecurityStatus("use biometrics");
                     savePassword();
-                    Biometrics biometrics = new Biometrics();
-                    biometrics.biometricsPrompt(getActivity(), MainActivity.class);
+                    Biometrics biometrics = new Biometrics() {
+                        @Override
+                        public void nextAction() {
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    };
+
+                    biometrics.biometricsPrompt(getContext());
                 }
             });
 

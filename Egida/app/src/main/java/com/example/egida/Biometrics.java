@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import java.util.concurrent.Executor;
 
-public class Biometrics {
+public abstract class Biometrics {
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
@@ -25,8 +25,34 @@ public class Biometrics {
     private String dialogDescription;
     private String dialogNegativeButtonText;
 
+    public abstract void nextAction();             // абстарктные метод, который будет переопределяться для конкретных случаев
 
-    public void setupAuthDialog(){
+    public void biometricsPrompt(Context currentContext){
+        Log.d("auth", "start biometricPrompt method");
+        executor = ContextCompat.getMainExecutor(currentContext);
+        biometricPrompt = new BiometricPrompt((FragmentActivity) currentContext, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(currentContext,
+                        "Authentication error: " + errString, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Toast.makeText(currentContext,
+                        "Authentication successful!", Toast.LENGTH_SHORT).show();
+                nextAction();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(currentContext, "Authentication failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Authentication")
                 .setSubtitle("Please verify your identity to continue")
@@ -35,71 +61,5 @@ public class Biometrics {
                 .build();
 
         biometricPrompt.authenticate(promptInfo);
-    }
-
-    // для открытия активностей
-    public void biometricsPrompt(Context currentContext, Class nextClass){
-        Log.d("auth", "start biometricPrompt method");
-        executor = ContextCompat.getMainExecutor(currentContext);
-        biometricPrompt = new BiometricPrompt((FragmentActivity) currentContext, executor, new BiometricPrompt.AuthenticationCallback() {
-            @Override
-            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                super.onAuthenticationError(errorCode, errString);
-                Toast.makeText(currentContext,
-                        "Authentication error: " + errString, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                super.onAuthenticationSucceeded(result);
-                Toast.makeText(currentContext,
-                        "Authentication successful!", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(currentContext, nextClass);
-                currentContext.startActivity(intent);
-            }
-
-            @Override
-            public void onAuthenticationFailed() {
-                super.onAuthenticationFailed();
-                Toast.makeText(currentContext, "Authentication failed", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        setupAuthDialog();
-    }
-
-    // для открытия фрагментов
-    public void biometricsPrompt(Context currentContext, int id, Fragment nextFragment){
-        Log.d("auth", "start biometricPrompt method");
-        executor = ContextCompat.getMainExecutor(currentContext);
-        biometricPrompt = new BiometricPrompt((FragmentActivity) currentContext, executor, new BiometricPrompt.AuthenticationCallback() {
-            @Override
-            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                super.onAuthenticationError(errorCode, errString);
-                Toast.makeText(currentContext,
-                        "Authentication error: " + errString, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                super.onAuthenticationSucceeded(result);
-                Toast.makeText(currentContext,
-                        "Authentication successful!", Toast.LENGTH_SHORT).show();
-
-                ((FragmentActivity)currentContext).getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(id, nextFragment)
-                        .commit();
-            }
-
-            @Override
-            public void onAuthenticationFailed() {
-                super.onAuthenticationFailed();
-                Toast.makeText(currentContext, "Authentication failed", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        setupAuthDialog();
     }
 }

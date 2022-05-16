@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import java.security.NoSuchAlgorithmException;
 
-public class Password {
+public abstract class Password {
 
     private static final String PASSWORD_PREF_TAG = "password";
 
@@ -48,17 +48,13 @@ public class Password {
                 dialog.dismiss();
             }
         });
-    }
 
-    public void nextOpen(Context currentContext, Class nextClass){
         alertDialogOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
                     if((new ShaEncoder(password.getText().toString()).sha256EncodeInput()).equals(getPassword())){
-                        Toast.makeText(currentContext, "Authentication successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(currentContext, nextClass);
-                        currentContext.startActivity(intent);
+                        nextAction();
                         dialog.dismiss();
                     } else {
                         Toast.makeText(currentContext, "Wrong password", Toast.LENGTH_SHORT).show();
@@ -72,20 +68,7 @@ public class Password {
         dialog.show();
     }
 
-    public void nextOpen(Context currentContext, int id, Fragment nextFragment){
-        alertDialogOkButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((FragmentActivity)currentContext).getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(id, nextFragment)
-                        .commit();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
+    public abstract void nextAction();
 
     private String getPassword(){
         SharedPreferences sharedPref = currentContext.getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
