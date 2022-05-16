@@ -28,14 +28,11 @@ public class SignUpPasswordFragment extends Fragment {
 
     private ImageView nextButton;
     private EditText password;
-    private Button alertDialogOkButton;
-    private Button alertDialogNoButton;
+    private CustomAlertDialog customAlertDialog;
 
     private SharedPreferences sharedPref;
     private static final String PASSWORD_PREF_TAG = "password";
     private static final String SECURITY_STATUS_PREF_TAG = "security_status";
-
-    Dialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
@@ -47,23 +44,10 @@ public class SignUpPasswordFragment extends Fragment {
         nextButton = view.findViewById(R.id.next_btn);
         password = view.findViewById(R.id.password_input_textField);
 
-        // alert dialog creation block
         {
-            dialog = new Dialog(getActivity());
-            dialog.setContentView(R.layout.custom_alertdialog_layout);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                dialog.getWindow().setBackgroundDrawable(getActivity().getDrawable(R.drawable.custom_alertdialog_background_inset));
-            }
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dialog.setCancelable(false);   // устанавливает можно ли отменить диалог клавишей "назад"
-            dialog.getWindow().getAttributes().windowAnimations = R.style.custom_alertdialog_animation; // анимация для диалога
-
-            alertDialogOkButton = dialog.findViewById(R.id.password_alertDialog_ok);
-            alertDialogNoButton = dialog.findViewById(R.id.password_alertDialog_no);
-
-            alertDialogOkButton.setOnClickListener(new View.OnClickListener() {
+            customAlertDialog = new CustomAlertDialog(getActivity()) {
                 @Override
-                public void onClick(View view) {
+                public void positiveAction() {
                     saveSecurityStatus("use biometrics");
                     savePassword();
                     Biometrics biometrics = new Biometrics() {
@@ -77,35 +61,30 @@ public class SignUpPasswordFragment extends Fragment {
 
                     biometrics.biometricsPrompt(getContext());
                 }
-            });
 
-            alertDialogNoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
+                public void negativeAction() {
+                    getDialog().dismiss();
                 }
-            });
+            };
+            customAlertDialog.setAlertDialogImageId(R.drawable.icon);
+            customAlertDialog.setNewAlertDialogTittle("You can use biometrics");
+            customAlertDialog.setNewAlertDialogDescription("This data will use for confirm action and login in app");
+            customAlertDialog.setNewAlertDialogQuestion("Do you want use your biometrics data?");
+            customAlertDialog.setNewAlertDialogOkButton("Yes, I do");
+            customAlertDialog.setNewAlertDialogNoButton("No, use password");
+            customAlertDialog.setupAlertDialogSettings();
         }
 
         BiometricManager biometricManager = BiometricManager.from(getActivity().getApplicationContext());
         switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
-                dialog.show();
+                customAlertDialog.getDialog().show();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                TextView dialogTittle = dialog.findViewById(R.id.password_alertDialog_tittle);
-                dialogTittle.setText("You can use biometrics, but you don't have saved fingerprint or face. " +
+                customAlertDialog.setNewAlertDialogTittle("You can use biometrics, but you don't have saved fingerprint or face. " +
                         "Please, check security settings of your phone");
-
-                alertDialogOkButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        saveSecurityStatus("need check phone security settings");
-                        getActivity().finish();
-                    }
-                });
-
-                dialog.show();
+                customAlertDialog.getDialog().show();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 break;

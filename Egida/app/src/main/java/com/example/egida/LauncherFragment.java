@@ -1,20 +1,17 @@
 package com.example.egida;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.security.NoSuchAlgorithmException;
 
 public class LauncherFragment extends Fragment {
 
@@ -50,7 +47,7 @@ public class LauncherFragment extends Fragment {
                     };
                     biometrics.biometricsPrompt(getContext());
                 } else {
-                    Password password = new Password(getContext()) {
+                    new Password(getContext()) {
                         @Override
                         public void nextAction() {
                             testText.setBackgroundColor(getActivity().getResources().getColor(R.color.teal_700));
