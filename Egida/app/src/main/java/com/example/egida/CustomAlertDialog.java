@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public abstract class CustomAlertDialog {
+
     private Dialog dialog;
 
     private ImageView alertDialogImage;

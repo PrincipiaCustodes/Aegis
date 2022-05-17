@@ -26,11 +26,15 @@
     <string name="biometrics_dialog_subtitle">Please verify your identity to continue</string>
     <string name="biometrics_dialog_description">Use fingerprint or face</string>
     <string name="biometrics_dialog_negative_button_text">Cancel</string>
-    <string name="authentication_error">Authentication error</string>
+    <string name="authentication_error">Authentication error: </string>
     <string name="authentication_failure">Authentication failed</string>
     <string name="authentication_successful">Authentication succeeded</string>
 
-    <!-- -->
+    <!-- Class LoginActivity -->
+    <string name="login_activity_welcome_text">Welcome to your temple, </string>
+
+    <!-- Class Password -->
+    <string name="wrong_password">Wrong password!</string>
 
     <string name="biometrics_signUp_state_1">You can use biometrics</string>
     <string name="biometrics_signUp_state_2">You can use biometrics, but you don\'t have saved security data, please check your security settings</string>

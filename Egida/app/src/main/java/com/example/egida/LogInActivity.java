@@ -21,7 +21,7 @@ public class LogInActivity extends AppCompatActivity {
     private static final String PASSWORD_PREF_TAG = "password";
     private static final String SECURITY_STATUS_PREF_TAG = "security_status";
 
-    private TextView helloText;
+    private TextView welcomeText;
     private EditText password;
     private ImageView nextButton;
 
@@ -30,12 +30,13 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        helloText = findViewById(R.id.hello_text);
+        welcomeText = findViewById(R.id.hello_text);
         password = findViewById(R.id.login_password_input_textField);
         nextButton = findViewById(R.id.login_next_btn);
 
-        helloText.setText("Glad to see you again, " + getNickname());
+        welcomeText.setText(getString(R.string.login_activity_welcome_text) + getNickname());
 
+        // если пользователь использует биометрические данные, то вызываем диалог биометрии, иначе запрашиваем пароль
         if(getSecurityStatus().equals("use biometrics")){
             Biometrics biometrics = new Biometrics() {
                 @Override
@@ -50,14 +51,17 @@ public class LogInActivity extends AppCompatActivity {
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // сравниваем хеш введённого пароля с сохранённым
                     try {
                         if((new ShaEncoder(password.getText().toString()).sha256EncodeInput()).equals(getPassword())){
-                            Toast.makeText(getApplicationContext(), "Authentication successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.authentication_successful),
+                                    Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.wrong_password),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();

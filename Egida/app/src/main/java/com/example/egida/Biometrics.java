@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 import java.util.concurrent.Executor;
 
 public abstract class Biometrics {
+
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
