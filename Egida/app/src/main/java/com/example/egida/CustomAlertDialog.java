@@ -1,5 +1,6 @@
 package com.example.egida;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
@@ -10,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public abstract class CustomAlertDialog {
-
-    private Context currentContext;
     private Dialog dialog;
 
     private ImageView alertDialogImage;
@@ -61,17 +60,10 @@ public abstract class CustomAlertDialog {
         return dialog;
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     public CustomAlertDialog(Context currentContext) {
-        this.currentContext = currentContext;
-
         dialog = new Dialog(currentContext);
         dialog.setContentView(R.layout.custom_alertdialog_layout);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            dialog.getWindow().setBackgroundDrawable(currentContext.getDrawable(R.drawable.custom_alertdialog_background_inset));
-        }
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(alertDialogCancelable);   // устанавливает можно ли отменить диалог клавишей "назад"
-        dialog.getWindow().getAttributes().windowAnimations = R.style.custom_alertdialog_animation; // анимация для диалога
 
         alertDialogOkButton = dialog.findViewById(R.id.custom_alertDialog_ok);
         alertDialogNoButton = dialog.findViewById(R.id.custom_alertDialog_no);
@@ -79,6 +71,11 @@ public abstract class CustomAlertDialog {
         alertDialogTittle = dialog.findViewById(R.id.custom_alertDialog_tittle);
         alertDialogDescription = dialog.findViewById(R.id.custom_alertDialog_description);
         alertDialogQuestion = dialog.findViewById(R.id.custom_alertDialog_question);
+
+        dialog.getWindow().setBackgroundDrawable(currentContext.getDrawable(R.drawable.custom_alertdialog_background_inset));
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.custom_alertdialog_animation;
+        dialog.setCancelable(alertDialogCancelable);
 
         alertDialogOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
