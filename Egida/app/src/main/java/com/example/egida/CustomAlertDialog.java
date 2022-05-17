@@ -20,8 +20,8 @@ public abstract class CustomAlertDialog {
     private TextView alertDialogQuestion;
     private Button alertDialogOkButton;
     private Button alertDialogNoButton;
-    private boolean alertDialogCancelable;
 
+    private boolean alertDialogCancelable;
     private int alertDialogImageId;
     private String newAlertDialogTittle;
     private String newAlertDialogDescription;
@@ -64,7 +64,6 @@ public abstract class CustomAlertDialog {
     public CustomAlertDialog(Context currentContext) {
         this.currentContext = currentContext;
 
-        // alert dialog creation block
         dialog = new Dialog(currentContext);
         dialog.setContentView(R.layout.custom_alertdialog_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -80,13 +79,6 @@ public abstract class CustomAlertDialog {
         alertDialogTittle = dialog.findViewById(R.id.custom_alertDialog_tittle);
         alertDialogDescription = dialog.findViewById(R.id.custom_alertDialog_description);
         alertDialogQuestion = dialog.findViewById(R.id.custom_alertDialog_question);
-
-        /*alertDialogImage.setImageResource(alertDialogImageId);
-        alertDialogTittle.setText(newAlertDialogTittle);
-        alertDialogDescription.setText(newAlertDialogDescription);
-        alertDialogQuestion.setText(newAlertDialogQuestion);
-        alertDialogOkButton.setText(newAlertDialogOkButton);
-        alertDialogNoButton.setText(newAlertDialogNoButton);*/
 
         alertDialogOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
