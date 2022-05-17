@@ -11,6 +11,7 @@ import android.os.Bundle;
 public class SplashScreen extends AppCompatActivity {
 
     private final String FIRST_START_TAG = "is_first_start";
+    private final String SIGNUP_STATUS_PREF_TAG = "signup_status";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +20,10 @@ public class SplashScreen extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
         boolean isFirstStart = sharedPreferences.getBoolean(FIRST_START_TAG, true);
 
-        if(isFirstStart){
-            startNextActivity(SignUpActivity.class);
-        } else {
+        if(sharedPreferences.getString(SIGNUP_STATUS_PREF_TAG, "").equals("account_created")){
             startNextActivity(LogInActivity.class);
+        } else {
+            startNextActivity(SignUpActivity.class);
         }
     }
 

@@ -33,6 +33,7 @@ public class SignUpPasswordFragment extends Fragment {
     private SharedPreferences sharedPref;
     private static final String PASSWORD_PREF_TAG = "password";
     private static final String SECURITY_STATUS_PREF_TAG = "security_status";
+    private static final String SIGNUP_STATUS_PREF_TAG = "signup_status";
 
     @Override
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
@@ -50,6 +51,7 @@ public class SignUpPasswordFragment extends Fragment {
                 public void positiveAction() {
                     saveSecurityStatus("use biometrics");
                     savePassword();
+                    saveSignUpStatus("account_created");
                     Biometrics biometrics = new Biometrics() {
                         @Override
                         public void nextAction() {
@@ -97,6 +99,7 @@ public class SignUpPasswordFragment extends Fragment {
                     try {
                         saveSecurityStatus("use password");
                         savePassword(password.getText().toString());
+                        saveSignUpStatus("account_created");
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();
                     }
@@ -129,7 +132,6 @@ public class SignUpPasswordFragment extends Fragment {
         Log.d("Test", "password: " + password);
         editor.putString(PASSWORD_PREF_TAG, "");
         editor.commit();
-        Toast.makeText(getActivity().getApplicationContext(), "Password saved", Toast.LENGTH_SHORT).show();
     }
 
     // сохранение статуса (уровня / состояния) безопасности
@@ -139,5 +141,12 @@ public class SignUpPasswordFragment extends Fragment {
         editor.putString(SECURITY_STATUS_PREF_TAG, status);
         editor.commit();
         Toast.makeText(getActivity().getApplicationContext(), "Security is done!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void saveSignUpStatus(String status){
+        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(SIGNUP_STATUS_PREF_TAG, status);
+        editor.commit();
     }
 }
