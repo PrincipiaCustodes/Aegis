@@ -44,8 +44,10 @@
 
     <!-- Class SignUpPasswordFragment -->
     <string name="password_updated">Password updated</string>
+    <string name="enter_password">Enter password!</string>
     <string name="biometrics_updated">Biometrics status updated</string>
     <string name="sign_up_status">Registration completed</string>
+    <string name="sign_up_about_password">The password will be used to confirm actions, to log in and to gain access in case of changing biometric settings</string>
 
     <!-- Class LoginActivity -->
     <string name="login_activity_welcome_text">Welcome to your temple, </string>
@@ -53,6 +55,12 @@
     <!-- Class Password -->
     <string name="wrong_password">Wrong password!</string>
 
-    <string name="biometrics_signUp_state_1">You can use biometrics</string>
-    <string name="biometrics_signUp_state_2">You can use biometrics, but you don\'t have saved security data, please check your security settings</string>
+    <!-- Custom alertDialogs strings -->
+    <string name="about_biometrics_alertDialog_status_can_use">You can use biometrics</string>
+    <string name="about_biometrics_alertDialog_status_none_enrolled">You can use biometrics, but you don\'t have saved security data, please check your security settings</string>
+    <string name="about_biometrics_alertDialog_status_description">This data will use for confirm action and login in app</string>
+    <string name="about_biometrics_alertDialog_status_question">Do you want use your biometrics data?</string>
+    <string name="about_biometrics_alertDialog_status_ok">Yes, I do</string>
+    <string name="about_biometrics_alertDialog_status_check_settings">Check settings</string>
+    <string name="about_biometrics_alertDialog_status_no">No, use password</string>
 </resources>

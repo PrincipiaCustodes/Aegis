@@ -6,17 +6,11 @@ import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTI
 import androidx.biometric.BiometricManager;
 import androidx.fragment.app.Fragment;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,11 +22,10 @@ public class SignUpPasswordFragment extends Fragment {
 
     private ImageView nextButton;
     private EditText password;
-    private CustomAlertDialog customAlertDialog;
+    private TextView aboutPassword;
 
-    private SharedPreferences sharedPref;
-    private static final String PASSWORD_PREF_TAG = "password";
-    private static final String SECURITY_STATUS_PREF_TAG = "security_status";
+    private CustomAlertDialog customAlertDialog1;
+    private CustomAlertDialog customAlertDialog2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
@@ -43,50 +36,62 @@ public class SignUpPasswordFragment extends Fragment {
 
         nextButton = view.findViewById(R.id.next_btn);
         password = view.findViewById(R.id.password_input_textField);
+        aboutPassword = view.findViewById(R.id.about_password);
 
-        {
-            customAlertDialog = new CustomAlertDialog(getActivity()) {
-                @Override
-                public void positiveAction() {
-                    saveSecurityStatus("use biometrics");
-                    savePassword();
-                    SharedPrefs.setSIGNUP_STATUS(getContext(), getString(R.string.signup_status_created));
-                    Biometrics biometrics = new Biometrics() {
-                        @Override
-                        public void nextAction() {
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            startActivity(intent);
-                            getActivity().finish();
-                        }
-                    };
-
-                    biometrics.biometricsPrompt(getContext());
-                }
-
-                @Override
-                public void negativeAction() {
-                    getDialog().dismiss();
-                }
-            };
-
-            customAlertDialog.setAlertDialogImageId(R.drawable.icon);
-            customAlertDialog.setNewAlertDialogTittle("You can use biometrics");
-            customAlertDialog.setNewAlertDialogDescription("This data will use for confirm action and login in app");
-            customAlertDialog.setNewAlertDialogQuestion("Do you want use your biometrics data?");
-            customAlertDialog.setNewAlertDialogOkButton("Yes, I do");
-            customAlertDialog.setNewAlertDialogNoButton("No, use password");
-            customAlertDialog.setupAlertDialogSettings();
-        }
+        aboutPassword.setText(R.string.sign_up_about_password);
 
         BiometricManager biometricManager = BiometricManager.from(getActivity().getApplicationContext());
         switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
-                customAlertDialog.getDialog().show();
+                // alertDialog, о том, что ПРЯМО СЕЙЧАС пользователь может использовать билметрические данные
+                customAlertDialog1 = new CustomAlertDialog(getActivity()) {
+                    @Override
+                    public void positiveAction() {
+                        Biometrics biometrics = new Biometrics() {
+                            @Override
+                            public void nextAction() { }
+                        };
+                        getDialog().dismiss();
+                        biometrics.biometricsPrompt(getContext());
+                    }
+
+                    @Override
+                    public void negativeAction() {
+                        getDialog().dismiss();
+                    }
+                };
+
+                customAlertDialog1.setAlertDialogImageId(R.drawable.icon);
+                customAlertDialog1.setNewAlertDialogTittle(getString(R.string.about_biometrics_alertDialog_status_can_use));
+                customAlertDialog1.setNewAlertDialogDescription(getString(R.string.about_biometrics_alertDialog_status_description));
+                customAlertDialog1.setNewAlertDialogQuestion(getString(R.string.about_biometrics_alertDialog_status_question));
+                customAlertDialog1.setNewAlertDialogOkButton(getString(R.string.about_biometrics_alertDialog_status_ok));
+                customAlertDialog1.setNewAlertDialogNoButton(getString(R.string.about_biometrics_alertDialog_status_no));
+                customAlertDialog1.setupAlertDialogSettings();
+                customAlertDialog1.getDialog().show();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                customAlertDialog.setNewAlertDialogTittle("You can use biometrics, but you don't have saved fingerprint or face. " +
-                        "Please, check security settings of your phone");
-                customAlertDialog.getDialog().show();
+                // alertDialog, о том, что пользователь может использовать билметрические данные, НО ДОЛЖЕН НАСТРОИТЬ ИХ
+                customAlertDialog2 = new CustomAlertDialog(getActivity()) {
+                    @Override
+                    public void positiveAction() {
+                        startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                    }
+
+                    @Override
+                    public void negativeAction() {
+                        getDialog().dismiss();
+                    }
+                };
+
+                customAlertDialog2.setAlertDialogImageId(R.drawable.icon);
+                customAlertDialog2.setNewAlertDialogTittle(getString(R.string.about_biometrics_alertDialog_status_none_enrolled));
+                customAlertDialog2.setNewAlertDialogDescription(getString(R.string.about_biometrics_alertDialog_status_description));
+                customAlertDialog2.setNewAlertDialogQuestion(getString(R.string.about_biometrics_alertDialog_status_question));
+                customAlertDialog2.setNewAlertDialogOkButton(getString(R.string.about_biometrics_alertDialog_status_check_settings));
+                customAlertDialog2.setNewAlertDialogNoButton(getString(R.string.about_biometrics_alertDialog_status_no));
+                customAlertDialog2.setupAlertDialogSettings();
+                customAlertDialog2.getDialog().show();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 break;
@@ -97,49 +102,22 @@ public class SignUpPasswordFragment extends Fragment {
             public void onClick(View view) {
                 if(!password.getText().toString().equals("")) {
                     try {
-                        saveSecurityStatus("use password");
-                        savePassword(password.getText().toString());
-                        SharedPrefs.setSIGNUP_STATUS(getContext(), getString(R.string.signup_status_created));
+                        SharedPrefs.setPASSWORD(getContext(), new ShaEncoder(password.getText().toString()).sha256EncodeInput());
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();
                     }
+
+                    SharedPrefs.setSIGNUP_STATUS(getContext(), getString(R.string.signup_status_created));
+
                     Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Enter the password!", Toast.LENGTH_SHORT)
+                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.enter_password), Toast.LENGTH_SHORT)
                             .show();
                 }
             }
         });
 
         return view;
-    }
-
-    // сохраняем пароль, если он будет использоваться
-    private void savePassword(String password) throws NoSuchAlgorithmException {
-        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        Log.d("Test", "password: " + password);
-        editor.putString(PASSWORD_PREF_TAG, new ShaEncoder(password).sha256EncodeInput());
-        editor.commit();
-        Toast.makeText(getActivity().getApplicationContext(), "Password saved", Toast.LENGTH_SHORT).show();
-    }
-
-    // сохраняем "" в поле пароля, если он не будет использоваться
-    private void savePassword() {
-        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        Log.d("Test", "password: " + password);
-        editor.putString(PASSWORD_PREF_TAG, "");
-        editor.commit();
-    }
-
-    // сохранение статуса (уровня / состояния) безопасности
-    private void saveSecurityStatus(String status){
-        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(SECURITY_STATUS_PREF_TAG, status);
-        editor.commit();
-        Toast.makeText(getActivity().getApplicationContext(), "Security is done!", Toast.LENGTH_SHORT).show();
     }
 }
