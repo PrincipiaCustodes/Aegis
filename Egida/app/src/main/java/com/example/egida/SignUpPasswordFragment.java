@@ -69,6 +69,7 @@ public class SignUpPasswordFragment extends Fragment {
                     getDialog().dismiss();
                 }
             };
+
             customAlertDialog.setAlertDialogImageId(R.drawable.icon);
             customAlertDialog.setNewAlertDialogTittle("You can use biometrics");
             customAlertDialog.setNewAlertDialogDescription("This data will use for confirm action and login in app");

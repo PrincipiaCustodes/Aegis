@@ -32,6 +32,12 @@
 
     <!-- Class SignUpNicknameFragment -->
     <string name="enter_nickname">Enter nickname!</string>
+    <string name="nickname_status">Nickname updated</string>
+
+    <!-- Class SignUpPasswordFragment -->
+    <string name="password_updated">Password updated</string>
+    <string name="biometrics_status_updated">Biometrics status updated</string>
+    <string name="sign_up_status">Registration completed</string>
 
     <!-- Class LoginActivity -->
     <string name="login_activity_welcome_text">Welcome to your temple, </string>
