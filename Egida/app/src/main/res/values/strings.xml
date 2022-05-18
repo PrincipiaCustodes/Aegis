@@ -30,6 +30,9 @@
     <string name="authentication_failure">Authentication failed</string>
     <string name="authentication_successful">Authentication succeeded</string>
 
+    <!-- Class SignUpNicknameFragment -->
+    <string name="enter_nickname">Enter nickname!</string>
+
     <!-- Class LoginActivity -->
     <string name="login_activity_welcome_text">Welcome to your temple, </string>
 

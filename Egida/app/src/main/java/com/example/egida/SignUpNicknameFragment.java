@@ -34,12 +34,13 @@ public class SignUpNicknameFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // не пускаем пользователя дальше, пока он не ввёл никнейм, какой? Его дело, хоть 47...
                 if(!nickname.getText().toString().equals("")) {
                     saveNickname();
                     SignUpPasswordFragment signUpPasswordActivity = new SignUpPasswordFragment();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.signup_fragment_container, signUpPasswordActivity).commit();
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Enter the nickname!", Toast.LENGTH_SHORT)
+                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.enter_nickname), Toast.LENGTH_SHORT)
                             .show();
                 }
             }
@@ -53,6 +54,5 @@ public class SignUpNicknameFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(NICKNAME_PREF_TAG, nickname.getText().toString());
         editor.commit();
-        Toast.makeText(getActivity().getApplicationContext(), "Nickname: " + nickname.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 }
