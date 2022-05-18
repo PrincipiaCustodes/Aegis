@@ -49,7 +49,7 @@ public class LauncherFragment extends Fragment {
                 } else {
                     new Password(getContext()) {
                         @Override
-                        public void nextAction() {
+                        public void passwordCorrectAction() {
                             testText.setBackgroundColor(getActivity().getResources().getColor(R.color.teal_700));
                         }
                     };

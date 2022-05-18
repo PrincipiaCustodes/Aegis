@@ -1,5 +1,6 @@
 package com.example.egida;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,26 +23,25 @@ public abstract class Password {
     private static final String PASSWORD_PREF_TAG = "password";
 
     Dialog dialog;
+    private Context currentContext;
     private EditText password;
     private Button alertDialogOkButton;
     private Button alertDialogNoButton;
-    private Context currentContext;
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     public Password(Context currentContext){
         this.currentContext = currentContext;
 
         dialog = new Dialog(currentContext);
         dialog.setContentView(R.layout.password_alertdialog_layout);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            dialog.getWindow().setBackgroundDrawable(currentContext.getDrawable(R.drawable.custom_alertdialog_background_inset));
-        }
+        dialog.getWindow().setBackgroundDrawable(currentContext.getDrawable(R.drawable.custom_alertdialog_background_inset));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(false);   // устанавливает можно ли отменить диалог клавишей "назад"
-        dialog.getWindow().getAttributes().windowAnimations = R.style.custom_alertdialog_animation; // анимация для диалога
+        dialog.getWindow().getAttributes().windowAnimations = R.style.custom_alertdialog_animation;
+        dialog.setCancelable(false);
 
+        password = dialog.findViewById(R.id.password_password_input_textField);
         alertDialogOkButton = dialog.findViewById(R.id.password_alertDialog_ok);
         alertDialogNoButton = dialog.findViewById(R.id.password_alertDialog_no);
-        password = dialog.findViewById(R.id.password_password_input_textField);
 
         alertDialogNoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,10 +55,11 @@ public abstract class Password {
             public void onClick(View view) {
                 try {
                     if((new ShaEncoder(password.getText().toString()).sha256EncodeInput()).equals(getPassword())){
-                        nextAction();
+                        passwordCorrectAction();
                         dialog.dismiss();
                     } else {
-                        Toast.makeText(currentContext, "Wrong password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(currentContext, currentContext.getString(R.string.wrong_password),
+                                Toast.LENGTH_SHORT).show();
                     }
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
@@ -69,7 +70,7 @@ public abstract class Password {
         dialog.show();
     }
 
-    public abstract void nextAction();
+    public abstract void passwordCorrectAction();
 
     private String getPassword(){
         SharedPreferences sharedPref = currentContext.getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
