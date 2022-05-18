@@ -43,6 +43,8 @@ public class SignUpPasswordFragment extends Fragment {
         BiometricManager biometricManager = BiometricManager.from(getActivity().getApplicationContext());
         switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
+                SharedPrefs.setBIOMETRICS_STATUS(getContext(), getString(R.string.biometrics_status_use));
+
                 // alertDialog, о том, что ПРЯМО СЕЙЧАС пользователь может использовать билметрические данные
                 customAlertDialog1 = new CustomAlertDialog(getActivity()) {
                     @Override
@@ -71,6 +73,8 @@ public class SignUpPasswordFragment extends Fragment {
                 customAlertDialog1.getDialog().show();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                SharedPrefs.setBIOMETRICS_STATUS(getContext(), getString(R.string.biometrics_status_none_enrolled));
+
                 // alertDialog, о том, что пользователь может использовать билметрические данные, НО ДОЛЖЕН НАСТРОИТЬ ИХ
                 customAlertDialog2 = new CustomAlertDialog(getActivity()) {
                     @Override
@@ -95,6 +99,7 @@ public class SignUpPasswordFragment extends Fragment {
                 customAlertDialog2.getDialog().show();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                SharedPrefs.setBIOMETRICS_STATUS(getContext(), getString(R.string.biometrics_status_no_hardware));
                 break;
         }
 
