@@ -50,7 +50,7 @@
     <string name="sign_up_about_password">The password will be used to confirm actions, to log in and to gain access in case of changing biometric settings</string>
 
     <!-- Class LoginActivity -->
-    <string name="login_activity_welcome_text">Welcome to your temple, </string>
+    <string name="login_activity_welcome_text">Welcome to your temple,</string>
 
     <!-- Class Password -->
     <string name="wrong_password">Wrong password!</string>
