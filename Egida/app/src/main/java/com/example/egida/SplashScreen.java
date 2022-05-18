@@ -16,7 +16,7 @@ public class SplashScreen extends AppCompatActivity {
 
         SharedPrefs.setFIRST_START(this, true);
 
-        if(SharedPrefs.getSIGNUP_STATUS(this).equals("account_created")){
+        if(SharedPrefs.getSIGNUP_STATUS(this).equals(R.string.signup_status_created)){
             startNextActivity(LogInActivity.class);
         } else {
             startNextActivity(SignUpActivity.class);
