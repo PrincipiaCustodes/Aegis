@@ -33,12 +33,12 @@ public class LauncherFragment extends Fragment {
         testButton = view.findViewById(R.id.test_btn);
         testText = view.findViewById(R.id.test_text);
 
-        testText.setText(getNickname());
+        testText.setText(SharedPrefs.getNICKNAME(getContext()));
 
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(getSecurityStatus().equals("use biometrics")){
+                if(SharedPrefs.getBIOMETRICS_STATUS(getContext()).equals(getString(R.string.biometrics_status_use))){
                     Biometrics biometrics = new Biometrics() {
                         @Override
                         public void nextAction() {

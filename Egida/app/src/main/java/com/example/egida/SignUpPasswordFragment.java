@@ -81,6 +81,7 @@ public class SignUpPasswordFragment extends Fragment {
                     public void positiveAction() {
                         // открываем найтроки телефона, чтобы пользователь настроил биометрические данные
                         startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                        getActivity().finish();
                     }
 
                     @Override

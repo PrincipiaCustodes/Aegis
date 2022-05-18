@@ -20,7 +20,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
-    <!-- TODO: remove this comment. Our string (17.05.22)-->
     <!-- Class Biometrics -->
     <string name="biometrics_dialog_title">Authentication</string>
     <string name="biometrics_dialog_subtitle">Please verify your identity to continue</string>
@@ -34,7 +33,6 @@
     <string name="biometrics_status_use">done</string>
     <string name="biometrics_status_none_enrolled">none_enrolled</string>
     <string name="biometrics_status_no_hardware">no_hardware</string>
-    
     <string name="signup_status_created">done</string>
     <string name="signup_status_not_created">not_created</string>
 
