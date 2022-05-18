@@ -30,13 +30,21 @@
     <string name="authentication_failure">Authentication failed</string>
     <string name="authentication_successful">Authentication succeeded</string>
 
+    <!-- Shared preferences statuses -->
+    <string name="biometrics_status_use">done</string>
+    <string name="biometrics_status_none_enrolled">none_enrolled</string>
+    <string name="biometrics_status_no_hardware">no_hardware</string>
+    
+    <string name="signup_status_created">done</string>
+    <string name="signup_status_not_created">not_created</string>
+
     <!-- Class SignUpNicknameFragment -->
     <string name="enter_nickname">Enter nickname!</string>
-    <string name="nickname_status">Nickname updated</string>
+    <string name="nickname_updated">Nickname updated</string>
 
     <!-- Class SignUpPasswordFragment -->
     <string name="password_updated">Password updated</string>
-    <string name="biometrics_status_updated">Biometrics status updated</string>
+    <string name="biometrics_updated">Biometrics status updated</string>
     <string name="sign_up_status">Registration completed</string>
 
     <!-- Class LoginActivity -->
