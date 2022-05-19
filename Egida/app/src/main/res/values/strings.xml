@@ -62,4 +62,10 @@
     <string name="about_biometrics_alertDialog_status_ok">Yes, I do</string>
     <string name="about_biometrics_alertDialog_status_check_settings">Check settings</string>
     <string name="about_biometrics_alertDialog_status_no">No, use password</string>
+
+    <!-- Password AlertDialog -->
+    <string name="password_alertDialog_title">Enter password</string>
+    <string name="password_alertDialog_description">Use the password to confirm the action</string>
+    <string name="password_alertDialog_ok">Confirm</string>
+    <string name="password_alertDialog_no">Cancel</string>
 </resources>
