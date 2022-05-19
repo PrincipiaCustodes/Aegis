@@ -6,48 +6,52 @@
     android:background="@color/white"
     tools:context=".LogInActivity">
 
+
     <ImageView
-        android:id="@+id/login_icon"
+        android:id="@+id/login_background_image"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1"
-        app:srcCompat="@drawable/crest" />
+        app:srcCompat="@drawable/login_background_image" />
 
     <TextView
         android:id="@+id/hello_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/login_password_input_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_icon" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_password_input_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
         android:hint="Password"
         app:counterEnabled="true"
         app:counterMaxLength="50"
         app:endIconMode="password_toggle"
-        app:layout_constraintTop_toBottomOf="@+id/hello_text"
-        app:startIconDrawable="@drawable/ic_lock"
-        tools:layout_editor_absoluteX="32dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        app:startIconDrawable="@drawable/ic_lock">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_password_input_textField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:password="true"
-            android:maxLength="50" />
+            android:maxLength="50"
+            android:password="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,7 +59,7 @@
         android:id="@+id/login_next_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_password_input_layout"

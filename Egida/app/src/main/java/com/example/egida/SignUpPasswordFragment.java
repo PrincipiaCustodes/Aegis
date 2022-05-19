@@ -80,7 +80,7 @@ public class SignUpPasswordFragment extends Fragment {
                     @Override
                     public void positiveAction() {
                         // открываем найтроки телефона, чтобы пользователь настроил биометрические данные
-                        startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                        startActivityForResult(new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS), 0);
                         getActivity().finish();
                     }
 
