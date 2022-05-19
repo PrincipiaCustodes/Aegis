@@ -17,7 +17,9 @@ import android.widget.TextView;
 public class AddFragment extends Fragment {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
