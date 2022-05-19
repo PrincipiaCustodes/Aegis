@@ -7,6 +7,10 @@
     android:background="@drawable/custom_alertdialog_background"
     android:padding="16dp">
 
+    <!-- Текст, установленный в полях android:text="..." - это заглушки,
+     используемые для наглядности отображения базового диалога, настоящий текст
+     устанавливается програмно с использованием строковых ресурсов -->
+
     <ImageView
         android:id="@+id/custom_alertDialog_image"
         android:layout_width="wrap_content"
@@ -18,12 +22,12 @@
 
     <TextView
         android:id="@+id/custom_alertDialog_tittle"
+        android:text="Title"
         style="@style/menu_headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Blin"
         android:layout_marginStart="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +37,7 @@
         android:id="@+id/custom_alertDialog_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This data will use for confirm action and login in app"
+        android:text="Description"
         android:gravity="center"
         style="@style/main_body"
         android:layout_marginTop="16dp"
@@ -45,7 +49,7 @@
         android:id="@+id/custom_alertDialog_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you want use your biometrics data?"
+        android:text="Question"
         android:gravity="center"
         style="@style/main_body"
         android:layout_marginTop="16dp"
@@ -55,28 +59,16 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/custom_alertDialog_no"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_appbar_top_background"
-        android:text="No. Use password"
-        android:textColor="@color/white"
-        android:textAllCaps="true"
-        android:fontFamily="@font/diogenes"
-        android:layout_marginTop="16dp"
+        android:text="no"
+        style="@style/custom_alertdialog_buttons_style"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/custom_alertDialog_question"
         app:layout_constraintWidth_percent="0.48" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/custom_alertDialog_ok"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_appbar_top_background"
-        android:text="Yes, I do"
-        android:textColor="@color/white"
-        android:textAllCaps="true"
-        android:fontFamily="@font/diogenes"
-        android:layout_marginTop="16dp"
+        android:text="OK"
+        style="@style/custom_alertdialog_buttons_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/custom_alertDialog_question"
         app:layout_constraintWidth_percent="0.48" />
