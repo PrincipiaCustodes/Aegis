@@ -37,6 +37,7 @@
     <string name="signup_status_not_created">not_created</string>
 
     <!-- Class SignUpNicknameFragment -->
+    <string name="about_nickname">Nickname will be used to address you while using the application</string>
     <string name="enter_nickname">Enter nickname!</string>
     <string name="nickname_updated">Nickname updated</string>
 

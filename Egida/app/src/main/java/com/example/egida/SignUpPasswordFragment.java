@@ -22,7 +22,6 @@ public class SignUpPasswordFragment extends Fragment {
 
     private ImageView nextButton;
     private EditText password;
-    private TextView aboutPassword;
 
     private CustomAlertDialog customAlertDialog1;
     private CustomAlertDialog customAlertDialog2;
@@ -36,9 +35,6 @@ public class SignUpPasswordFragment extends Fragment {
 
         nextButton = view.findViewById(R.id.next_btn);
         password = view.findViewById(R.id.password_input_textField);
-        aboutPassword = view.findViewById(R.id.about_password);
-
-        aboutPassword.setText(R.string.sign_up_about_password);
 
         BiometricManager biometricManager = BiometricManager.from(getActivity().getApplicationContext());
         switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {

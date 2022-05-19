@@ -19,6 +19,22 @@
         <item name="android:layout_marginTop">16dp</item>
     </style>
 
+    <style name="signup_about_text_style" parent="main_body">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:layout_marginEnd">32dp</item>
+    </style>
+
+    <style name="input_textField_style" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:layout_marginEnd">32dp</item>
+    </style>
+
     <!-- Custom text -->
     <style name="main_body">
         <item name="android:textColor">@color/black</item>
