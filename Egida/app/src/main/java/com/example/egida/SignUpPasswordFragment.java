@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +40,11 @@ public class SignUpPasswordFragment extends Fragment {
         BiometricManager biometricManager = BiometricManager.from(getActivity().getApplicationContext());
         switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
-                SharedPrefs.setBIOMETRICS_STATUS(getContext(), getString(R.string.biometrics_status_use));
-
                 // alertDialog, о том, что ПРЯМО СЕЙЧАС пользователь может использовать билметрические данные
                 customAlertDialog1 = new CustomAlertDialog(getActivity()) {
                     @Override
                     public void positiveAction() {
+                        SharedPrefs.setBIOMETRICS_STATUS(getContext(), getString(R.string.biometrics_status_use));
                         Biometrics biometrics = new Biometrics() {
                             @Override
                             public void nextAction() { }
@@ -105,7 +105,9 @@ public class SignUpPasswordFragment extends Fragment {
             public void onClick(View view) {
                 if(!password.getText().toString().equals("")) {
                     try {
-                        SharedPrefs.setPASSWORD(getContext(), new ShaEncoder(password.getText().toString()).sha256EncodeInput());
+                        Log.d("Password", "pass1: " + password.getText().toString());
+                        Log.d("Password", "pass2: " + new ShaEncoder(password.getText().toString()).sha256EncodeInput());
+                        SharedPrefs.setPASSWORD(getContext(), password.getText().toString());
                     } catch (NoSuchAlgorithmException e) {
                         e.printStackTrace();
                     }

@@ -32,6 +32,7 @@
         <item name="android:layout_marginTop">32dp</item>
         <item name="android:layout_marginStart">32dp</item>
         <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="input_textField_style" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
