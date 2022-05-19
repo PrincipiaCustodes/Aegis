@@ -21,20 +21,15 @@
 
     <TextView
         android:id="@+id/about_nickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
+        style="@style/signup_about_text_style"
+        android:text="@string/about_nickname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signup_image" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nickname_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
+        style="@style/input_textField_style"
         android:hint="Nickname"
         app:counterEnabled="true"
         app:counterMaxLength="20"

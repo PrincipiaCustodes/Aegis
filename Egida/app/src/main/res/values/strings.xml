@@ -9,7 +9,6 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -21,6 +20,52 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
-    <string name="biometrics_signUp_state_1">You can use biometrics</string>
-    <string name="biometrics_signUp_state_2">You can use biometrics, but you don\'t have saved security data, please check your security settings</string>
+    <!-- Class Biometrics -->
+    <string name="biometrics_dialog_title">Authentication</string>
+    <string name="biometrics_dialog_subtitle">Please verify your identity to continue</string>
+    <string name="biometrics_dialog_description">Use fingerprint or face</string>
+    <string name="biometrics_dialog_negative_button_text">Cancel</string>
+    <string name="authentication_error">Authentication error: </string>
+    <string name="authentication_failure">Authentication failed</string>
+    <string name="authentication_successful">Authentication succeeded</string>
+
+    <!-- Shared preferences statuses -->
+    <string name="biometrics_status_use">done</string>
+    <string name="biometrics_status_none_enrolled">none_enrolled</string>
+    <string name="biometrics_status_no_hardware">no_hardware</string>
+    <string name="signup_status_created">done</string>
+    <string name="signup_status_not_created">not_created</string>
+
+    <!-- Class SignUpNicknameFragment -->
+    <string name="about_nickname">Nickname will be used to address you while using the application</string>
+    <string name="enter_nickname">Enter nickname!</string>
+    <string name="nickname_updated">Nickname updated</string>
+
+    <!-- Class SignUpPasswordFragment -->
+    <string name="password_updated">Password updated</string>
+    <string name="enter_password">Enter password!</string>
+    <string name="biometrics_updated">Biometrics status updated</string>
+    <string name="sign_up_status">Registration completed</string>
+    <string name="sign_up_about_password">The password will be used to confirm actions, to log in and to gain access in case of changing biometric settings</string>
+
+    <!-- Class LoginActivity -->
+    <string name="login_activity_welcome_text">Welcome to your temple,</string>
+
+    <!-- Class Password -->
+    <string name="wrong_password">Wrong password!</string>
+
+    <!-- Custom alertDialogs strings -->
+    <string name="about_biometrics_alertDialog_status_can_use">You can use biometrics</string>
+    <string name="about_biometrics_alertDialog_status_none_enrolled">You can use biometrics, but you don\'t have saved security data, please check your security settings</string>
+    <string name="about_biometrics_alertDialog_status_description">This data will use for confirm action and login in app</string>
+    <string name="about_biometrics_alertDialog_status_question">Do you want use your biometrics data?</string>
+    <string name="about_biometrics_alertDialog_status_ok">Yes, I do</string>
+    <string name="about_biometrics_alertDialog_status_check_settings">Check settings</string>
+    <string name="about_biometrics_alertDialog_status_no">No, use password</string>
+
+    <!-- Password AlertDialog -->
+    <string name="password_alertDialog_title">Enter password</string>
+    <string name="password_alertDialog_description">Use the password to confirm the action</string>
+    <string name="password_alertDialog_ok">Confirm</string>
+    <string name="password_alertDialog_no">Cancel</string>
 </resources>

@@ -11,12 +11,15 @@ import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +32,7 @@ import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity {
 
-    // bottom navigation var
+    // bottom navigation bar
     private MeowBottomNavigation bottomNavigation;
 
     // navigation drawer
@@ -80,9 +83,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // set default selected icon
+        // set default selected fragment and icon
         bottomNavigation.show(3, true);
 
+        // bottom navigation actions
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) { }
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             public void onReselectItem(MeowBottomNavigation.Model item) { }
         });
 
-        // navigation drawer
+        // navigation drawer actions
         menuIcon.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("WrongConstant")
             @Override
@@ -119,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // method for load fragments on activity
     private void loadFragment(Fragment fragment){
         getSupportFragmentManager()
                 .beginTransaction()

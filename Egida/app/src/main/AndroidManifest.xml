@@ -16,12 +16,6 @@
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpPasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SignUpNicknameActivity"
-            android:exported="false" />
-        <activity
             android:name=".TestActivity"
             android:exported="false" />
         <activity

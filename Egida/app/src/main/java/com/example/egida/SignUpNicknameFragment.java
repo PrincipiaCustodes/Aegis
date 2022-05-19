@@ -2,14 +2,13 @@ package com.example.egida;
 
 import androidx.fragment.app.Fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -17,9 +16,6 @@ public class SignUpNicknameFragment extends Fragment {
 
     private ImageView nextButton;
     private EditText nickname;
-
-    private SharedPreferences sharedPref;
-    private static final String NICKNAME_PREF_TAG = "nickname";
 
     @Override
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
@@ -34,25 +30,18 @@ public class SignUpNicknameFragment extends Fragment {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // не пускаем пользователя дальше, пока он не ввёл никнейм, какой? Его дело, хоть 47...
                 if(!nickname.getText().toString().equals("")) {
-                    saveNickname();
+                    SharedPrefs.setNICKNAME(getContext(), nickname.getText().toString());
                     SignUpPasswordFragment signUpPasswordActivity = new SignUpPasswordFragment();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.signup_fragment_container, signUpPasswordActivity).commit();
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Enter the nickname!", Toast.LENGTH_SHORT)
+                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.enter_nickname), Toast.LENGTH_SHORT)
                             .show();
                 }
             }
         });
 
         return view;
-    }
-
-    private void saveNickname() {
-        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(NICKNAME_PREF_TAG, nickname.getText().toString());
-        editor.commit();
-        Toast.makeText(getActivity().getApplicationContext(), "Nickname: " + nickname.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 }
