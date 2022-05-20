@@ -90,6 +90,7 @@ public class LogInActivity extends AppCompatActivity {
                     public void positiveAction() {
                         SharedPrefs.setBIOMETRICS_STATUS(getApplicationContext(), getString(R.string.biometrics_status_use));
 
+                        // рестарт активности
                         Intent intent = getIntent();
                         finish();
                         startActivity(intent);
