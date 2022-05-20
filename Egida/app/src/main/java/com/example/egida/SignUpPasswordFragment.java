@@ -116,6 +116,7 @@ public class SignUpPasswordFragment extends Fragment {
 
                     Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
                     startActivity(intent);
+                    getActivity().finish();
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(), getString(R.string.enter_password), Toast.LENGTH_SHORT)
                             .show();
