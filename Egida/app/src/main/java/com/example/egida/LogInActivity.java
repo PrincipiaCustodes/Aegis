@@ -38,6 +38,8 @@ public class LogInActivity extends AppCompatActivity {
         password = findViewById(R.id.login_password_input_textField);
         nextButton = findViewById(R.id.login_next_btn);
 
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
+
         welcomeText.setText(getString(R.string.login_activity_welcome_text) + " " + SharedPrefs.getNICKNAME(this));
 
         // если пользователь использует биометрические данные, то вызываем диалог биометрии, иначе запрашиваем пароль

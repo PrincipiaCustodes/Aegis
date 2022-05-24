@@ -44,6 +44,7 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/custom_drawer_nav_background"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
