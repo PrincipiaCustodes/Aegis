@@ -1,7 +1,5 @@
 package com.example.egida;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,20 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-
 public class LauncherFragment extends Fragment {
 
     Button testButton;
     TextView testText;
-
-    private SharedPreferences sharedPref;
-    private static final String NICKNAME_PREF_TAG = "nickname";
-    private static final String SECURITY_STATUS_PREF_TAG = "security_status";
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,15 +46,5 @@ public class LauncherFragment extends Fragment {
         });
 
         return view;
-    }
-
-    private String getNickname(){
-        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
-        return sharedPref.getString(NICKNAME_PREF_TAG, "error");
-    }
-
-    private String getSecurityStatus(){
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
-        return sharedPref.getString(SECURITY_STATUS_PREF_TAG, "security_status_error");
     }
 }
