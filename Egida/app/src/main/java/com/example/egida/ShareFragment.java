@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 public class ShareFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
