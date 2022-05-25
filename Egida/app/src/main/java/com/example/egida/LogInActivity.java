@@ -30,11 +30,7 @@ public class LogInActivity extends AppCompatActivity {
     private ImageView useBiometricsButton;
 
     private CustomAlertDialog customAlertDialog1;
-<<<<<<< HEAD
-    // добавить диалог
-=======
     private CustomAlertDialog customAlertDialog2;
->>>>>>> 85bba0e35900bda750c0c2143bbb318688fa881e
 
     @SuppressLint("SetTextI18n")
     @Override
