@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navigation_view);
         menuIcon = findViewById(R.id.menu_icon);
 
+        // устанавливаем цвет системной навигации, чтобы он сливался с navbar-ом
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
+
         // bottom navigation set icons and buttons
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_delete_forever));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_cloud_download));

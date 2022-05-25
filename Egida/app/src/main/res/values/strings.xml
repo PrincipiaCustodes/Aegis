@@ -22,6 +22,8 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
+    <string name="password_hint">Password</string>
+
     <!-- Class Biometrics -->
     <string name="biometrics_dialog_title">Authentication</string>
     <string name="biometrics_dialog_subtitle">Please verify your identity to continue</string>

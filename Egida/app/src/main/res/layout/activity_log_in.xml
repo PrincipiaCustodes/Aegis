@@ -15,15 +15,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/login_background_image" />
+        app:srcCompat="@drawable/background_image"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/hello_text"
+        style="@style/main_body_greek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:text="@string/login_activity_welcome_text"
-        style="@style/main_body_greek"
         app:layout_constraintBottom_toTopOf="@+id/login_password_input_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -33,10 +34,9 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        android:hint="Password"
+        android:layout_marginStart="56dp"
+        android:layout_marginEnd="56dp"
+        android:hint="@string/password_hint"
         app:counterEnabled="true"
         app:counterMaxLength="50"
         app:endIconMode="password_toggle"
@@ -44,7 +44,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6"
         app:startIconDrawable="@drawable/ic_lock">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -60,10 +59,29 @@
         android:id="@+id/login_next_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_password_input_layout"
         app:srcCompat="@drawable/ic_next" />
+
+    <ImageView
+        android:id="@+id/login_close_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/login_next_btn"
+        app:layout_constraintEnd_toStartOf="@+id/login_next_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_password_input_layout"
+        app:srcCompat="@drawable/ic_close_app" />
+
+    <ImageView
+        android:id="@+id/login_use_biometrics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/login_next_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/login_next_btn"
+        app:layout_constraintTop_toBottomOf="@+id/login_password_input_layout"
+        app:srcCompat="@drawable/ic_fingerprint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
