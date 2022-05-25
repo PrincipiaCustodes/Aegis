@@ -27,6 +27,7 @@ public class LogInActivity extends AppCompatActivity {
     private ImageView nextButton;
 
     private CustomAlertDialog customAlertDialog1;
+    // добавить диалог
 
     @SuppressLint("SetTextI18n")
     @Override
