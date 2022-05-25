@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,8 +26,11 @@ public class LogInActivity extends AppCompatActivity {
     private TextView welcomeText;
     private EditText password;
     private ImageView nextButton;
+    private ImageView closeAppButton;
+    private ImageView useBiometricsButton;
 
     private CustomAlertDialog customAlertDialog1;
+    private CustomAlertDialog customAlertDialog2;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -34,24 +38,42 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         welcomeText = findViewById(R.id.hello_text);
         password = findViewById(R.id.login_password_input_textField);
         nextButton = findViewById(R.id.login_next_btn);
-
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
+        closeAppButton = findViewById(R.id.login_close_app);
+        useBiometricsButton = findViewById(R.id.login_use_biometrics);
 
         welcomeText.setText(getString(R.string.login_activity_welcome_text) + " " + SharedPrefs.getNICKNAME(this));
 
+        Biometrics biometrics = new Biometrics() {
+            @Override
+            public void nextAction() {
+                Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+
+        closeAppButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        useBiometricsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                biometrics.biometricsPrompt(LogInActivity.this);
+            }
+        });
+
         // если пользователь использует биометрические данные, то вызываем диалог биометрии, иначе запрашиваем пароль
         if(SharedPrefs.getBIOMETRICS_STATUS(this).equals(getString(R.string.biometrics_status_use))){
-            Biometrics biometrics = new Biometrics() {
-                @Override
-                public void nextAction() {
-                    Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            };
             biometrics.biometricsPrompt(this);
         } else {
             canUseBiometrics();
@@ -114,6 +136,29 @@ public class LogInActivity extends AppCompatActivity {
                 customAlertDialog1.getDialog().show();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                // alertDialog, о том, что пользователь может использовать билметрические данные, НО ДОЛЖЕН НАСТРОИТЬ ИХ
+                customAlertDialog2 = new CustomAlertDialog(this) {
+                    @Override
+                    public void positiveAction() {
+                        // открываем найтроки телефона, чтобы пользователь настроил биометрические данные
+                        startActivityForResult(new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS), 0);
+                        finish();
+                    }
+
+                    @Override
+                    public void negativeAction() {
+                        getDialog().dismiss();
+                    }
+                };
+
+                customAlertDialog2.setAlertDialogImageId(R.drawable.icon);
+                customAlertDialog2.setNewAlertDialogTittle(getString(R.string.about_biometrics_alertDialog_status_none_enrolled));
+                customAlertDialog2.setNewAlertDialogDescription(getString(R.string.about_biometrics_alertDialog_status_description));
+                customAlertDialog2.setNewAlertDialogQuestion(getString(R.string.about_biometrics_alertDialog_status_question));
+                customAlertDialog2.setNewAlertDialogOkButton(getString(R.string.about_biometrics_alertDialog_status_check_settings));
+                customAlertDialog2.setNewAlertDialogNoButton(getString(R.string.about_biometrics_alertDialog_status_no));
+                customAlertDialog2.setupAlertDialogSettings();
+                customAlertDialog2.getDialog().show();
                 break;
         }
     }
