@@ -7,6 +7,16 @@
     tools:context=".ShareFragment">
 
 
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start server"
+        app:layout_constraintBottom_toTopOf="@+id/gen_qr_code_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/gen_qr_code_btn"
         android:layout_width="wrap_content"
