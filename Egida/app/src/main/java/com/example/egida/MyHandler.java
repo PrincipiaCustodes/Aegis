@@ -18,7 +18,7 @@ public class MyHandler implements Runnable {
     private final Socket socket;
     private final String directory;
 
-    private static final String NOT_FOUND_MESSAGE = "NOT FOUND";
+    private static String NOT_FOUND_MESSAGE = "NOT FOUND";
 
     MyHandler(Socket socket, String directory) {
         this.socket = socket;
@@ -36,6 +36,7 @@ public class MyHandler implements Runnable {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void run() {
+        NOT_FOUND_MESSAGE = directory;
         try {
             InputStream input = this.socket.getInputStream();
             OutputStream output = this.socket.getOutputStream();

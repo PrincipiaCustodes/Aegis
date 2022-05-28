@@ -1,6 +1,5 @@
 package com.example.egida;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 
@@ -25,23 +25,16 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousServerSocketChannel;
-import java.nio.channels.AsynchronousSocketChannel;
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ShareFragment extends Fragment {
 
     Button genButton;
     ImageView qrCode;
     Switch serverState;
+    EditText edTxt;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,19 +58,22 @@ public class ShareFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 createQrCode();
-                new Server(8080, "/storage/emulated/Test").start();
             }
         });
 
+        Server server = new Server(8080, "/storage/emulated/Test");
         serverState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                Thread thread = new Thread(server);
                 if(isChecked){
-                    new Server(8080, "/storage/emulated/Test").start();
+
+                    thread.start();
+                } else {
+                    server.stop1();
                 }
             }
         });
-
 
         return view;
     }
@@ -96,7 +92,8 @@ public class ShareFragment extends Fragment {
         }
     }
 
-    class Server {
+    public class Server implements Runnable {
+        private boolean exit;
 
         private final int port;
         private final String directory;
@@ -106,17 +103,25 @@ public class ShareFragment extends Fragment {
             this.directory = directory;
         }
 
-        void start() {
-            try(ServerSocket server = new ServerSocket(this.port)) {
-                while (true) {
-                    Socket socket = server.accept();
-                    Thread thread = new Thread(new MyHandler(socket, this.directory));
-                    thread.start();
-                }
+        @Override
+        public void run() {
+            while(!exit) {
+                try (ServerSocket server = new ServerSocket(this.port)) {
+                    while (true) {
+                        Socket socket = server.accept();
+                        Thread thread = new Thread(new MyHandler(socket, this.directory));
+                        thread.start();
+                    }
 
-            } catch(IOException e) {
-                e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        }
+
+        public void stop1()
+        {
+            exit = true;
         }
     }
 }
