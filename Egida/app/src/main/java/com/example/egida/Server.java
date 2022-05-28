@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server implements Runnable {
+
+    private boolean exit;
     private final int port;
     private final String directory;
 
@@ -13,19 +15,9 @@ public class Server implements Runnable {
         this.directory = directory;
     }
 
-    private static boolean isServerStart = true;
-
-    public static boolean isIsServerStart() {
-        return isServerStart;
-    }
-
-    public static void setIsServerStart(boolean isServerStart) {
-        Server.isServerStart = isServerStart;
-    }
-
     @Override
     public void run() {
-        while(isServerStart){
+        while(!exit) {
             try (ServerSocket server = new ServerSocket(this.port)) {
                 while (true) {
                     Socket socket = server.accept();
@@ -37,5 +29,10 @@ public class Server implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void stopServer()
+    {
+        exit = true;
     }
 }

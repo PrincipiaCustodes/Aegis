@@ -1,6 +1,9 @@
 package com.example.egida;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -8,6 +11,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.os.StrictMode;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,23 +31,17 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.security.NoSuchAlgorithmException;
 
 public class ShareFragment extends Fragment {
 
     Button genButton;
     ImageView qrCode;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch serverState;
-    EditText edTxt;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_share, container, false);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -67,10 +65,9 @@ public class ShareFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 Thread thread = new Thread(server);
                 if(isChecked){
-
                     thread.start();
                 } else {
-                    server.stop1();
+                    server.stopServer();
                 }
             }
         });
@@ -81,8 +78,7 @@ public class ShareFragment extends Fragment {
     private void createQrCode(){
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode("https://github.com/journeyapps/zxing-android-embedded",
-                    BarcodeFormat.QR_CODE, 350, 350);
+            BitMatrix bitMatrix = multiFormatWriter.encode(createQrCodeMessage(), BarcodeFormat.QR_CODE, 350, 350);
 
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
@@ -92,36 +88,45 @@ public class ShareFragment extends Fragment {
         }
     }
 
-    public class Server implements Runnable {
-        private boolean exit;
+    private String createQrCodeMessage(){
+        StringBuffer qrCodeMessage = new StringBuffer();
+        qrCodeMessage.append("http://")
+                .append(getIP())
+                .append(":")
+                .append(getPort())
+                .append("|")
+                .append(getSecretCode())
+                .append("|")
+                .append(getKey());
 
-        private final int port;
-        private final String directory;
+        return qrCodeMessage.toString();
+    }
 
-        public Server(int port, String directory) {
-            this.port = port;
-            this.directory = directory;
+    private String getPort() {
+        String port = "8080";
+        return port;
+    }
+
+    private String getIP(){
+        Context context = requireContext().getApplicationContext();
+        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+        Log.d("IP", "ip: " + ip);
+        return ip;
+    }
+
+    private String getSecretCode(){
+        String secretCode = null;
+        try {
+            secretCode = new ShaEncoder("2413").sha256EncodeInput();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
+        return secretCode;
+    }
 
-        @Override
-        public void run() {
-            while(!exit) {
-                try (ServerSocket server = new ServerSocket(this.port)) {
-                    while (true) {
-                        Socket socket = server.accept();
-                        Thread thread = new Thread(new MyHandler(socket, this.directory));
-                        thread.start();
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        public void stop1()
-        {
-            exit = true;
-        }
+    private String getKey(){
+        String key = "UKYQ74fBMd+nq9SyUUBrCw==";
+        return key;
     }
 }
