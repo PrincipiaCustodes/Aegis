@@ -107,13 +107,13 @@ public class ShareFragment extends Fragment {
         Context context = requireContext().getApplicationContext();
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
-        Log.d("IP", "ip: " + ip);
         return ip;
     }
 
     private String genSecretCode(){
         String secretCode = null;
         try {
+            // каждый раз генерируется разный код, т.к. меняются входные данные для хеширования (время, возможно ip сети)
             secretCode = new ShaEncoder((Calendar.getInstance().getTime() + getIP())).sha256EncodeInput();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
