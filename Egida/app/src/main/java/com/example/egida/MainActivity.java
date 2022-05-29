@@ -32,10 +32,8 @@ import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity {
 
-    // bottom navigation bar
     private MeowBottomNavigation bottomNavigation;
 
-    // navigation drawer
     private ImageView menuIcon;
     private DrawerLayout navigationDrawerLayout;
     private NavigationView navigationView;
