@@ -130,4 +130,9 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.container_for_fragments, fragment)
                 .commit();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
