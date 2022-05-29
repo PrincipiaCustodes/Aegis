@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 
 public class ShareFragment extends Fragment {
 
@@ -59,7 +60,7 @@ public class ShareFragment extends Fragment {
             }
         });
 
-        Server server = new Server(8080, "/storage/emulated/Test");
+        Server server = new Server("/storage/emulated/Test");
         serverState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -93,18 +94,13 @@ public class ShareFragment extends Fragment {
         qrCodeMessage.append("http://")
                 .append(getIP())
                 .append(":")
-                .append(getPort())
+                .append(Server.getPort())
                 .append("|")
-                .append(getSecretCode())
+                .append(genSecretCode())
                 .append("|")
                 .append(getKey());
 
         return qrCodeMessage.toString();
-    }
-
-    private String getPort() {
-        String port = "8080";
-        return port;
     }
 
     private String getIP(){
@@ -115,10 +111,10 @@ public class ShareFragment extends Fragment {
         return ip;
     }
 
-    private String getSecretCode(){
+    private String genSecretCode(){
         String secretCode = null;
         try {
-            secretCode = new ShaEncoder("2413").sha256EncodeInput();
+            secretCode = new ShaEncoder((Calendar.getInstance().getTime() + getIP())).sha256EncodeInput();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -126,6 +122,7 @@ public class ShareFragment extends Fragment {
     }
 
     private String getKey(){
+        // TODO: Миша, нужно передать сюда ключ для расшифровки
         String key = "UKYQ74fBMd+nq9SyUUBrCw==";
         return key;
     }
