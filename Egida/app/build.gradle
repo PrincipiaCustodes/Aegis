@@ -65,4 +65,7 @@ dependencies {
     // meow navigation
     implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61"
+
+    // gson
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

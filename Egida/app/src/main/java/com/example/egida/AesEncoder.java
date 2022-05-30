@@ -49,6 +49,8 @@ public class AesEncoder {
         File decryptedFile = new File(decryptedFilePath);
         byte[] encryptedBytes = Files.readAllBytes(Paths.get(encryptedFilePath));
 
+        // add Drawing
+
         String keyString = "EgidaIsTheBest606"; // TODO: add the custom string generating function
 
         Cipher decryptCipher = Cipher.getInstance("AES");

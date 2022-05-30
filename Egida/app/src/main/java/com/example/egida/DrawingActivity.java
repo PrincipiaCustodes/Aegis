@@ -12,6 +12,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.security.NoSuchAlgorithmException;
+
 public class DrawingActivity extends AppCompatActivity {
     DrawingView dv ;
     private Paint mPaint;
@@ -74,7 +76,13 @@ public class DrawingActivity extends AppCompatActivity {
         }
 
         private float mX, mY;
+        private String seed;
         private static final float TOUCH_TOLERANCE = 4;
+
+        public String getKey() throws NoSuchAlgorithmException {
+            ShaEncoder encoder = new ShaEncoder(seed);
+            return encoder.sha256EncodeInput();
+        }
 
         private void touch_start(float x, float y) {
             mPath.reset();
@@ -86,6 +94,7 @@ public class DrawingActivity extends AppCompatActivity {
         private void touch_move(float x, float y) {
             float dx = Math.abs(x - mX);
             float dy = Math.abs(y - mY);
+
             if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
                 mPath.quadTo(mX, mY, (x + mX)/2, (y + mY)/2);
                 mX = x;
@@ -94,6 +103,7 @@ public class DrawingActivity extends AppCompatActivity {
                 circlePath.reset();
                 circlePath.addCircle(mX, mY, 30, Path.Direction.CW);
             }
+            seed.concat(String.valueOf(mX).concat(String.valueOf(mY)));
         }
 
         private void touch_up() {
