@@ -19,6 +19,7 @@ import com.google.zxing.Result;
 public class QrCodeScannerFragment extends Fragment {
 
     private CodeScanner mCodeScanner;
+    private String message;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,11 @@ public class QrCodeScannerFragment extends Fragment {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(activity, result.getText(), Toast.LENGTH_SHORT).show();
+                        message = result.getText();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container_for_fragments, GetFromServerFragment.newInstance(message), "GetFromServerFragment")
+                                .addToBackStack(null)
+                                .commit();
                     }
                 });
             }
