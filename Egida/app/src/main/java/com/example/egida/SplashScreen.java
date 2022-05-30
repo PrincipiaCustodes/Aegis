@@ -2,10 +2,7 @@ package com.example.egida;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 public class SplashScreen extends AppCompatActivity {
@@ -13,6 +10,9 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Keys keys = new Keys ();
+        Keys.Data data = keys.new Data();
 
         SharedPrefs.setFIRST_START(this, true);
 
