@@ -29,4 +29,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/text_from_server"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Haha"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gotPassword" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

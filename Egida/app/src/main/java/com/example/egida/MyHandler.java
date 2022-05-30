@@ -36,7 +36,6 @@ public class MyHandler implements Runnable {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void run() {
-        NOT_FOUND_MESSAGE = directory;
         try {
             InputStream input = this.socket.getInputStream();
             OutputStream output = this.socket.getOutputStream();
