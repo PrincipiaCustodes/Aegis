@@ -11,7 +11,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Keys keys = new Keys ();
+        Keys keys = new Keys();
         Keys.Data data = keys.new Data();
 
         SharedPrefs.setFIRST_START(this, true);

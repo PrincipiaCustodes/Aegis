@@ -1,15 +1,29 @@
 package com.example.egida;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.os.Environment;
+import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -94,8 +108,81 @@ public class GetFromServerFragment extends Fragment {
             }
         });
 
+        downloadFile();
+
         return view;
     }
 
-    
+    private void downloadFile(){
+        Retrofit.Builder builder = new Retrofit.Builder()
+                //.baseUrl(Formatter.formatIpAddress(((WifiManager)getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getIpAddress()));
+                .baseUrl("https://futurestud.io/");
+
+        Retrofit retrofit = builder.build();
+
+        JsonServerAPI jsonServerAPI = retrofit.create(JsonServerAPI.class);
+
+        Call<ResponseBody> call = jsonServerAPI.downloadFile();
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                boolean success = writeResponseBodyToDisk(response.body());
+
+                Toast.makeText(getContext(), "Yeeeees!" + success, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "fuck!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    // File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "hahah.json");
+    private boolean writeResponseBodyToDisk(ResponseBody body) {
+        try {
+            File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "file1.png");
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioIconFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+
+                    fileSizeDownloaded += read;
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
 }

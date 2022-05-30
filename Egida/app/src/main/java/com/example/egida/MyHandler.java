@@ -1,6 +1,7 @@
 package com.example.egida;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 

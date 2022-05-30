@@ -65,7 +65,7 @@ public class ShareFragment extends Fragment {
             }
         });
 
-        Server server = new Server("/storage/emulated/Test");
+        Server server = new Server("/data/data/com.example.egida/encrypted_files");
         serverState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -109,10 +109,8 @@ public class ShareFragment extends Fragment {
     }
 
     private String getIP(){
-        Context context = requireContext().getApplicationContext();
-        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
-        return ip;
+        //WifiManager wifiManager = ;
+        return Formatter.formatIpAddress(((WifiManager)getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getIpAddress());
     }
 
     private String genSecretCode(){
