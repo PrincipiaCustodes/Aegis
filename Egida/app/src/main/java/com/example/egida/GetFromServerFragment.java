@@ -78,7 +78,7 @@ public class GetFromServerFragment extends Fragment {
 
 
     private void downloadFile(String url){
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("http://./");
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("http://192.168.100.9:8080/");
 
         Retrofit retrofit = builder.build();
         RetrofitServerAPI jsonServerAPI = retrofit.create(RetrofitServerAPI.class);
