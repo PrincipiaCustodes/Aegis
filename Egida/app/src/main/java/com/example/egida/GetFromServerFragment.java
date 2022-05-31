@@ -1,13 +1,9 @@
 package com.example.egida;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
-import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,19 +12,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GetFromServerFragment extends Fragment {
 
@@ -77,7 +70,7 @@ public class GetFromServerFragment extends Fragment {
         ipText.setText(ip);
         passwordText.setText(password);
 
-        downloadFile("http://192.168.100.9:8080/test.txt");
+        downloadFile("http://192.168.100.9:8080/image.jpg");
 
         return view;
     }
@@ -85,12 +78,10 @@ public class GetFromServerFragment extends Fragment {
 
 
     private void downloadFile(String url){
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("http://192.168.100.9:8080/");
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("http://./");
 
         Retrofit retrofit = builder.build();
-
-        JsonServerAPI jsonServerAPI = retrofit.create(JsonServerAPI.class);
-
+        RetrofitServerAPI jsonServerAPI = retrofit.create(RetrofitServerAPI.class);
         Call<ResponseBody> call = jsonServerAPI.downloadFile(url);
 
         call.enqueue(new Callback<ResponseBody>() {
@@ -98,19 +89,19 @@ public class GetFromServerFragment extends Fragment {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 boolean success = writeResponseBodyToDisk(response.body());
 
-                Toast.makeText(getContext(), "Yeeeees!" + success, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Connection successful!" + success, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), "fuck!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Connection failure!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "bla.txt");
+            File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "bla2.jpg");
 
             InputStream inputStream = null;
             OutputStream outputStream = null;

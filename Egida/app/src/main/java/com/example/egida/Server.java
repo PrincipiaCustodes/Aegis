@@ -22,7 +22,8 @@ public class Server implements Runnable {
     public void run() {
         while(!exit) {
             // нулевой порт позволяет прослушивать любой свободный порт
-            try (ServerSocket server = new ServerSocket(0)) {
+            try {
+                ServerSocket server = new ServerSocket(0);
                 port = server.getLocalPort();
                 while (true) {
                     Socket socket = server.accept();
