@@ -1,18 +1,26 @@
 package com.example.egida;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+
+import java.io.IOException;
 
 public class SplashScreen extends AppCompatActivity {
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Keys keys = new Keys ();
-        Keys.Data data = keys.new Data();
+        try {
+            Keys keys = new Keys ();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         SharedPrefs.setFIRST_START(this, true);
 
