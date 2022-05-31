@@ -62,8 +62,7 @@ public class GetFromServerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_get_from_server, container, false);
 
         ipText = view.findViewById(R.id.gotIP);
@@ -78,51 +77,21 @@ public class GetFromServerFragment extends Fragment {
         ipText.setText(ip);
         passwordText.setText(password);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://jsonplaceholder.typicode.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        JsonServerAPI jsonServerAPI = retrofit.create(JsonServerAPI.class);
-
-        Call<List<JsonFile>> call = jsonServerAPI.getPosts();
-
-        call.enqueue(new Callback<List<JsonFile>>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onResponse(Call<List<JsonFile>> call, Response<List<JsonFile>> response) {
-                if(!response.isSuccessful()){
-                    textFromServer.setText("Code: " + response.code());
-                    return;
-                }
-
-                List<JsonFile> file = response.body();
-
-                String text = file.get(0).getText();
-                textFromServer.setText("Text::: " + text);
-            }
-
-            @Override
-            public void onFailure(Call<List<JsonFile>> call, Throwable t) {
-                textFromServer.setText(t.getMessage());
-            }
-        });
-
-        downloadFile();
+        downloadFile("http://192.168.100.9:8080/test.txt");
 
         return view;
     }
 
-    private void downloadFile(){
-        Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl(Formatter.formatIpAddress(((WifiManager)getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getIpAddress()));
-                .baseUrl("https://futurestud.io/");
+
+
+    private void downloadFile(String url){
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("http://192.168.100.9:8080/");
 
         Retrofit retrofit = builder.build();
 
         JsonServerAPI jsonServerAPI = retrofit.create(JsonServerAPI.class);
 
-        Call<ResponseBody> call = jsonServerAPI.downloadFile();
+        Call<ResponseBody> call = jsonServerAPI.downloadFile(url);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -138,10 +107,10 @@ public class GetFromServerFragment extends Fragment {
             }
         });
     }
-    // File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "hahah.json");
+
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "file1.png");
+            File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "bla.txt");
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
