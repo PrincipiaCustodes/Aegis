@@ -123,9 +123,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-
-                PopupMenu popupMenu = new PopupMenu(context,v);
+            public boolean onLongClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(context, view);
                 popupMenu.getMenu().add("DELETE");
                 popupMenu.getMenu().add("MOVE");
                 popupMenu.getMenu().add("RENAME");
@@ -137,7 +136,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                             boolean deleted = selectedFile.delete();
                             if(deleted){
                                 Toast.makeText(context.getApplicationContext(),"DELETED",Toast.LENGTH_SHORT).show();
-                                v.setVisibility(View.GONE);
+                                view.setVisibility(View.GONE);
                             }
                         }
                         if(item.getTitle().equals("MOVE")){
@@ -156,7 +155,5 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                 return true;
             }
         });
-
-
     }
 }

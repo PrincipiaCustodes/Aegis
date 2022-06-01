@@ -36,6 +36,8 @@ public class LauncherFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
 
+    public LauncherFragment(){}
+
     public static LauncherFragment newInstance(String param1) {
         LauncherFragment fragment = new LauncherFragment();
         Bundle args = new Bundle();
@@ -60,7 +62,7 @@ public class LauncherFragment extends Fragment {
         filesList = view.findViewById(R.id.files_list);
         currentDirectory = view.findViewById(R.id.currentFolder);
         openAppDir = view.findViewById(R.id.openAppDir);
-        
+
         currentDirectory.setText(getArguments().getString(ARG_PARAM1));
 
         filesList.setLayoutManager(new LinearLayoutManager(getContext()));
