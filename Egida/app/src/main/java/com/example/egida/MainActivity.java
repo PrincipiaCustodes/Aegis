@@ -64,13 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (item.getId()){
                     case 1:
-                        fragment = new DeleteFragment().newInstance("/storage/sdcard0/");
+                        fragment = new DeleteFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
                         break;
                     case 2:
                         fragment = new DownloadFragment();
                         break;
                     case 3:
-                        fragment = new LauncherFragment().newInstance("/storage/sdcard0/");
+                        fragment = new LauncherFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
                         break;
                     case 4:
                         fragment = new AddFragment();
