@@ -38,7 +38,7 @@ public class DrawingView extends View {
         circlePaint = new Paint();
         circlePath = new Path();
         circlePaint.setAntiAlias(true);
-        circlePaint.setColor(Color.BLUE);
+        circlePaint.setColor(Color.BLACK);
         circlePaint.setStyle(Paint.Style.STROKE);
         circlePaint.setStrokeJoin(Paint.Join.MITER);
         circlePaint.setStrokeWidth(4f);
@@ -63,7 +63,7 @@ public class DrawingView extends View {
         circlePaint = new Paint();
         circlePath = new Path();
         circlePaint.setAntiAlias(true);
-        circlePaint.setColor(Color.BLUE);
+        circlePaint.setColor(Color.BLACK);
         circlePaint.setStyle(Paint.Style.STROKE);
         circlePaint.setStrokeJoin(Paint.Join.MITER);
         circlePaint.setStrokeWidth(4f);
@@ -86,7 +86,7 @@ public class DrawingView extends View {
         circlePaint = new Paint();
         circlePath = new Path();
         circlePaint.setAntiAlias(true);
-        circlePaint.setColor(Color.BLUE);
+        circlePaint.setColor(Color.BLACK);
         circlePaint.setStyle(Paint.Style.STROKE);
         circlePaint.setStrokeJoin(Paint.Join.MITER);
         circlePaint.setStrokeWidth(4f);
