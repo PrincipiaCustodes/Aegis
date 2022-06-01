@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new DownloadFragment();
                         break;
                     case 3:
-                        fragment = new LauncherFragment();
+                        fragment = new LauncherFragment().newInstance("/storage/sdcard0/Download/");
                         break;
                     case 4:
                         fragment = new AddFragment();

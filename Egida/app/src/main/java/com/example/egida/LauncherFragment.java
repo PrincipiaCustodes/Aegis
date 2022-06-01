@@ -20,17 +20,37 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 
 
 public class LauncherFragment extends Fragment {
 
     RecyclerView filesList;
-    //private String path;
+    TextView currentDirectory;
+    Button openAppDir;
+
+    private File appDirectory;
+    private File[] filesAndFolders;
+
+    private static final String ARG_PARAM1 = "param1";
+
+    public static LauncherFragment newInstance(String param1) {
+        LauncherFragment fragment = new LauncherFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            appDirectory = new File(getArguments().getString(ARG_PARAM1));
+            filesAndFolders = appDirectory.listFiles();
+        }
     }
 
     @Override
@@ -38,12 +58,13 @@ public class LauncherFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_launcher, container, false);
 
         filesList = view.findViewById(R.id.files_list);
-
-        File root = new File(Environment.getExternalStorageDirectory().getPath());
-        File[] filesAndFolders = root.listFiles();
+        currentDirectory = view.findViewById(R.id.currentFolder);
+        openAppDir = view.findViewById(R.id.openAppDir);
+        
+        currentDirectory.setText(getArguments().getString(ARG_PARAM1));
 
         filesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        filesList.setAdapter(new FileListAdapter(getActivity().getApplicationContext(), filesAndFolders));
+        filesList.setAdapter(new FileListAdapter(getActivity(), filesAndFolders));
 
         return view;
     }
