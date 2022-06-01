@@ -66,7 +66,7 @@ public class LauncherFragment extends Fragment {
         currentDirectory.setText(getArguments().getString(ARG_PARAM1));
 
         filesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        filesList.setAdapter(new FileListAdapter(getActivity(), filesAndFolders));
+        filesList.setAdapter(new FileListAdapter(getActivity(), filesAndFolders, "launcher"));
 
         return view;
     }

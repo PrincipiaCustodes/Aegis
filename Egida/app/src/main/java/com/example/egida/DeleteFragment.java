@@ -3,15 +3,27 @@ package com.example.egida;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import java.io.File;
 
 public class DeleteFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
 
-    private String mParam1;
+    RecyclerView filesList;
+    TextView currentDirectory;
+    Button openAppDir;
+
+    private File appDirectory;
+    private File[] filesAndFolders;
+
+    private static final String ARG_PARAM1 = "param1";
 
     public DeleteFragment() {}
 
@@ -27,7 +39,8 @@ public class DeleteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            appDirectory = new File(getArguments().getString(ARG_PARAM1));
+            filesAndFolders = appDirectory.listFiles();
         }
     }
 
@@ -36,7 +49,14 @@ public class DeleteFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_delete, container, false);
 
+        filesList = view.findViewById(R.id.files_list);
+        currentDirectory = view.findViewById(R.id.currentFolder);
+        openAppDir = view.findViewById(R.id.openAppDir);
 
+        currentDirectory.setText(getArguments().getString(ARG_PARAM1));
+
+        filesList.setLayoutManager(new LinearLayoutManager(getContext()));
+        filesList.setAdapter(new FileListAdapter(getActivity(), filesAndFolders,  "del"));
 
         return view;
     }

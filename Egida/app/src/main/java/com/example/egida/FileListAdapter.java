@@ -22,11 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHolder>{
     private final Context context;
     private final File[] data;
+    private final String fun;
     private String type = "";
 
-    public FileListAdapter(Context context, File[] data){
+    public FileListAdapter(Context context, File[] data, String fun){
         this.context = context;
         this.data = data;
+        this.fun = fun;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -97,63 +99,70 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
             }
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(selectedFile.isDirectory()){
-                    ((FragmentActivity)context).getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.container_for_fragments, LauncherFragment.newInstance(selectedFile.getAbsolutePath()), "LauncherFragment")
-                            .addToBackStack(null)
-                            .commit();
-                }else{
-                    try {
-                        Intent intent = new Intent();
-                        intent.setAction(android.content.Intent.ACTION_VIEW);
-                        String type = "image/*";
-                        intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    }catch (Exception e){
-                        Toast.makeText(context.getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(context, view);
-                popupMenu.getMenu().add("DELETE");
-                popupMenu.getMenu().add("MOVE");
-                popupMenu.getMenu().add("RENAME");
-
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        switch (fun){
+            case "launcher":
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getTitle().equals("DELETE")){
-                            boolean deleted = selectedFile.delete();
-                            if(deleted){
-                                Toast.makeText(context.getApplicationContext(),"DELETED",Toast.LENGTH_SHORT).show();
-                                view.setVisibility(View.GONE);
-                            }
+                    public void onClick(View v) {
+                        if(selectedFile.isDirectory()){
+                            ((FragmentActivity)context).getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.container_for_fragments, LauncherFragment.newInstance(selectedFile.getAbsolutePath()), "LauncherFragment")
+                                    .addToBackStack(null)
+                                    .commit();
+                        }else{
+                            /*try {
+                                Intent intent = new Intent();
+                                intent.setAction(android.content.Intent.ACTION_VIEW);
+                                String type = "image/*";
+                                intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }catch (Exception e){
+                                Toast.makeText(context.getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
+                            }*/
+                            ((FragmentActivity)context).getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.container_for_fragments, new DecodeFragment().newInstance(selectedFile.toString()))
+                                    .addToBackStack(null)
+                                    .commit();
                         }
-                        if(item.getTitle().equals("MOVE")){
-                            Toast.makeText(context.getApplicationContext(),"MOVED",Toast.LENGTH_SHORT).show();
-
-                        }
-                        if(item.getTitle().equals("RENAME")){
-                            Toast.makeText(context.getApplicationContext(),"RENAME",Toast.LENGTH_SHORT).show();
-
-                        }
-                        return true;
                     }
                 });
+                break;
+            case "del":
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context) {
+                            @Override
+                            public void positiveAction() {
+                                Biometrics biometrics = new Biometrics() {
+                                    @Override
+                                    public void nextAction() {
+                                        // TODO: функция удаления
+                                    }
+                                };
+                                biometrics.biometricsPrompt(context);
+                                getDialog().dismiss();
+                            }
 
-                popupMenu.show();
-                return true;
-            }
-        });
+                            @Override
+                            public void negativeAction() {
+                                getDialog().dismiss();
+                            }
+                        };
+                        customAlertDialog.setAlertDialogImageId(R.drawable.icon);
+                        customAlertDialog.setNewAlertDialogTittle("Deleting a file");
+                        customAlertDialog.setNewAlertDialogDescription("The file will be removed from the application directory and will not be encrypted");
+                        customAlertDialog.setNewAlertDialogQuestion("Are you sure you want to delete the file?");
+                        customAlertDialog.setNewAlertDialogOkButton("Yep");
+                        customAlertDialog.setNewAlertDialogNoButton("Nope");
+                        customAlertDialog.setupAlertDialogSettings();
+                        customAlertDialog.getDialog().show();
+                    }
+                });
+                break;
+        }
     }
 }
