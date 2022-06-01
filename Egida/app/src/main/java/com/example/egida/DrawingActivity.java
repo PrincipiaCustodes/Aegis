@@ -7,10 +7,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.egida.ShaEncoder;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -66,6 +69,15 @@ public class DrawingActivity extends AppCompatActivity {
             mCanvas = new Canvas(mBitmap);
         }
 
+        private String seed = "";
+
+        String getKey() throws NoSuchAlgorithmException {
+            ShaEncoder encoder = new ShaEncoder(seed);
+            return encoder.sha256EncodeInput();
+        }
+
+        private float mX, mY;
+
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
@@ -75,26 +87,19 @@ public class DrawingActivity extends AppCompatActivity {
             canvas.drawPath( circlePath,  circlePaint);
         }
 
-        private float mX, mY;
-        private String seed;
         private static final float TOUCH_TOLERANCE = 4;
 
-        public String getKey() throws NoSuchAlgorithmException {
-            ShaEncoder encoder = new ShaEncoder(seed);
-            return encoder.sha256EncodeInput();
-        }
-
-        private void touch_start(float x, float y) {
+        private void touch_start(float x, float y) throws NoSuchAlgorithmException {
             mPath.reset();
             mPath.moveTo(x, y);
             mX = x;
             mY = y;
+            Log.i("bruh", getKey());
         }
 
-        private void touch_move(float x, float y) {
+        private void touch_move(float x, float y) throws NoSuchAlgorithmException {
             float dx = Math.abs(x - mX);
             float dy = Math.abs(y - mY);
-
             if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
                 mPath.quadTo(mX, mY, (x + mX)/2, (y + mY)/2);
                 mX = x;
@@ -103,15 +108,20 @@ public class DrawingActivity extends AppCompatActivity {
                 circlePath.reset();
                 circlePath.addCircle(mX, mY, 30, Path.Direction.CW);
             }
-            seed.concat(String.valueOf(mX).concat(String.valueOf(mY)));
+            Integer tmp = Math.round(dx) + Math.round(dy);
+
+            ShaEncoder encoder = new ShaEncoder(tmp.toString());
+
+            seed += encoder.sha256EncodeInput().substring(0, 3);
+            if (seed.length() > 16)
+                seed.substring(0, 16);
+            Log.i("bruh", seed);
         }
 
         private void touch_up() {
             mPath.lineTo(mX, mY);
             circlePath.reset();
-            // commit the path to our offscreen
             mCanvas.drawPath(mPath,  mPaint);
-            // kill this so we don't double draw
             mPath.reset();
         }
 
@@ -122,11 +132,19 @@ public class DrawingActivity extends AppCompatActivity {
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    touch_start(x, y);
+                    try {
+                        touch_start(x, y);
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
                     invalidate();
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    touch_move(x, y);
+                    try {
+                        touch_move(x, y);
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
                     invalidate();
                     break;
                 case MotionEvent.ACTION_UP:
