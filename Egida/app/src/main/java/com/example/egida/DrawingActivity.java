@@ -94,7 +94,6 @@ public class DrawingActivity extends AppCompatActivity {
             mPath.moveTo(x, y);
             mX = x;
             mY = y;
-            Log.i("bruh", getKey());
         }
 
         private void touch_move(float x, float y) throws NoSuchAlgorithmException {
