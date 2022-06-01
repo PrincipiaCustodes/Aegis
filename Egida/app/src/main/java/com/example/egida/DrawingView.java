@@ -16,8 +16,6 @@ import androidx.annotation.NonNull;
 import java.security.NoSuchAlgorithmException;
 
 public class DrawingView extends View {
-    Context context;
-
     public int width;
     public  int height;
     private Bitmap mBitmap;
@@ -29,11 +27,7 @@ public class DrawingView extends View {
     private Path mPath;
     private Paint mPaint;
 
-    private void init(@NonNull AttributeSet set){}
-
-    public DrawingView(Context c) {
-        super(c);
-        context=c;
+    private void setup(){
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
         circlePaint = new Paint();
         circlePath = new Path();
@@ -52,6 +46,14 @@ public class DrawingView extends View {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(12);
+    }
+
+    private void init(@NonNull AttributeSet set){}
+
+    public DrawingView(Context context) {
+        super(context);
+
+        setup();
     }
 
     public DrawingView(Context context, AttributeSet attrs){
@@ -59,47 +61,14 @@ public class DrawingView extends View {
 
         init(attrs);
 
-        mBitmapPaint = new Paint(Paint.DITHER_FLAG);
-        circlePaint = new Paint();
-        circlePath = new Path();
-        circlePaint.setAntiAlias(true);
-        circlePaint.setColor(Color.BLACK);
-        circlePaint.setStyle(Paint.Style.STROKE);
-        circlePaint.setStrokeJoin(Paint.Join.MITER);
-        circlePaint.setStrokeWidth(4f);
-
-        mPath = new Path();
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
-        mPaint.setColor(Color.BLACK);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(12);
+        setup();
     }
+
 
     public DrawingView(Context context, AttributeSet attrs, int defStyleAttr){
         super(context, attrs, defStyleAttr);
 
-        mBitmapPaint = new Paint(Paint.DITHER_FLAG);
-        circlePaint = new Paint();
-        circlePath = new Path();
-        circlePaint.setAntiAlias(true);
-        circlePaint.setColor(Color.BLACK);
-        circlePaint.setStyle(Paint.Style.STROKE);
-        circlePaint.setStrokeJoin(Paint.Join.MITER);
-        circlePaint.setStrokeWidth(4f);
-
-        mPath = new Path();
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
-        mPaint.setColor(Color.BLACK);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(12);
+        setup();
     }
 
     @Override
