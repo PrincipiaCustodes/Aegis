@@ -23,10 +23,20 @@ public class Keys {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Keys() throws IOException {
-        String dirPath = "/data/data/com.example.egida/encrypted_files/";
-        File encryptedFiles = new File(dirPath);
+        String dirPath = "/data/data/com.example.egida/app_files/";
+        File appFiles = new File(dirPath);
+        if (!appFiles.exists())
+            appFiles.mkdirs();
+        File encryptedFiles = new File("/data/data/com.example.egida/encrypted_files/");
         if (!encryptedFiles.exists())
             encryptedFiles.mkdirs();
+        File tempFiles = new File("/data/data/com.example.egida/temp_files/");
+        if (!tempFiles.exists())
+            tempFiles.mkdirs();
+        File sharedFiles = new File("/data/data/com.example.egida/shared_files/");
+        if (!sharedFiles.exists())
+            sharedFiles.mkdirs();
+
         File file = new File(dirPath, "keys.json");
         keys = new HashMap<>();
         if (file.exists()) {
@@ -38,20 +48,20 @@ public class Keys {
     }
 
     public void saveToJson() {
-        File file = new File("/data/data/com.example.egida/encrypted_files/", "keys.json");
+        File file = new File("/data/data/com.example.egida/app_files/", "keys.json");
         Gson gson = new Gson();
         String json = gson.toJson(keys);
         try {
-            AesEncoder.writeBytesToFile("/data/data/com.example.egida/encrypted_files/keys.json", json.getBytes());
+            AesEncoder.writeBytesToFile("/data/data/com.example.egida/app_files/keys.json", json.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
         @RequiresApi(api = Build.VERSION_CODES.O)
     public void recoverFromJson() throws IOException {
-        File file = new File("/data/data/com.example.egida/encrypted_files/", "keys.json");
+        File file = new File("/data/data/com.example.egida/app_files/", "keys.json");
         Gson gson = new Gson();
-        byte[] encoded = Files.readAllBytes(Paths.get("/data/data/com.example.egida/encrypted_files/keys.json"));
+        byte[] encoded = Files.readAllBytes(Paths.get("/data/data/com.example.egida/app_files/keys.json"));
         String json = new String(encoded, StandardCharsets.US_ASCII);
         keys = gson.fromJson(json, HashMap.class);
     }
