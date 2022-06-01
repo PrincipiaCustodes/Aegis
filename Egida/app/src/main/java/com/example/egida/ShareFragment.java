@@ -65,7 +65,7 @@ public class ShareFragment extends Fragment {
             }
         });
 
-        Server server = new Server("/storage/emulated/0/DCIM/");
+        Server server = new Server("/data/data/com.example.egida/encrypted_files/");
         serverState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
