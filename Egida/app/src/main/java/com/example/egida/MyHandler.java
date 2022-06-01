@@ -15,15 +15,7 @@ import java.util.Scanner;
 
 public class MyHandler implements Runnable {
 
-    private final Socket socket;
-    private final String directory;
-
-    private static String NOT_FOUND_MESSAGE = "NOT FOUND";
-
-    MyHandler(Socket socket, String directory) {
-        this.socket = socket;
-        this.directory = directory;
-    }
+    private static final String NOT_FOUND_MESSAGE = "NOT FOUND";
 
     private static final Map<String, String> CONTENT_TYPES = new HashMap<String, String>() {{
         put("jpg", "image/jpeg");
@@ -33,13 +25,23 @@ public class MyHandler implements Runnable {
         put("", "text/plain");
     }};
 
+    private final Socket socket;
+    private final String directory;
+
+    MyHandler(Socket socket, String directory) {
+        this.socket = socket;
+        this.directory = directory;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void run() {
         try {
             InputStream input = this.socket.getInputStream();
             OutputStream output = this.socket.getOutputStream();
+
             String url = this.getRequestUrl(input);
+
             Path filePath = Paths.get(new File(this.directory, url).getAbsolutePath());
 
             if (Files.exists(filePath) && !Files.isDirectory(filePath)) {
@@ -47,11 +49,12 @@ public class MyHandler implements Runnable {
                 String type = CONTENT_TYPES.get(extension);
 
                 byte[] fileBytes = Files.readAllBytes(filePath);
-                this.sendHeader(output, 200, "OK", type, fileBytes.length);
+
+                this.responseHeader(output, 200, "OK", type, fileBytes.length);
                 output.write(fileBytes);
             } else {
                 String type = CONTENT_TYPES.get("text");
-                this.sendHeader(output, 404, "Not Found", type, NOT_FOUND_MESSAGE.length());
+                this.responseHeader(output, 404, "Not Found", type, NOT_FOUND_MESSAGE.length());
                 output.write(NOT_FOUND_MESSAGE.getBytes());
             }
         } catch(IOException e) {
@@ -59,7 +62,7 @@ public class MyHandler implements Runnable {
         }
     }
 
-    // получаем ссылку запроса
+    // получаем ссылку на файл из запроса
     private String getRequestUrl(InputStream input) {
         Scanner reader = new Scanner(input).useDelimiter("\r\n");
         String line = reader.next();
@@ -71,13 +74,19 @@ public class MyHandler implements Runnable {
     private String getFileExtension(Path path) {
         String name = path.getFileName().toString();
         int extensionStart = name.lastIndexOf(".");
-        return extensionStart == -1 ? "" : name.substring(extensionStart + 1);
+
+        if(extensionStart == -1){
+            return "";
+        } else {
+            return name.substring(extensionStart + 1);
+        }
     }
 
-    private void sendHeader(OutputStream output, int statusCode, String statusText, String type, long length) {
-        PrintStream ps = new PrintStream(output);
-        ps.printf("HTTP/1.1 %s %s%n", statusCode, statusText);
-        ps.printf("Content-Type: %s%n", type);
-        ps.printf("Content-Length: %s%n%n", length);
+    // формирование заголовка ответа
+    private void responseHeader(OutputStream output, int statusCode, String statusText, String type, long length) {
+        PrintStream printStream = new PrintStream(output);
+        printStream.printf("HTTP/1.1 %s %s%n", statusCode, statusText);
+        printStream.printf("Content-Type: %s%n", type);
+        printStream.printf("Content-Length: %s%n%n", length);
     }
 }
