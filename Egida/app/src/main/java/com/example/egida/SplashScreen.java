@@ -7,7 +7,18 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -15,12 +26,6 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        try {
-            Keys keys = new Keys ();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         SharedPrefs.setFIRST_START(this, true);
 
