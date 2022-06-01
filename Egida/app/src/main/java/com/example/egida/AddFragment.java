@@ -16,35 +16,27 @@ import android.widget.TextView;
 
 public class AddFragment extends Fragment {
 
+    Button drawingButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_launcher, container, false);
+        View view = inflater.inflate(R.layout.fragment_add, container, false);
 
-        {
-            CustomAlertDialog customAlertDialog = new CustomAlertDialog(getActivity()) {
-                @Override
-                public void positiveAction() {
-                    getDialog().dismiss();
-                }
+        drawingButton = view.findViewById(R.id.drawing);
 
-                @Override
-                public void negativeAction() {
-                    getDialog().dismiss();
-                }
-            };
-            customAlertDialog.setAlertDialogImageId(R.drawable.icon);
-            customAlertDialog.setNewAlertDialogTittle("Test dialog");
-            customAlertDialog.setNewAlertDialogDescription("Some description");
-            customAlertDialog.setNewAlertDialogQuestion("Are you ready?");
-            customAlertDialog.setNewAlertDialogOkButton("Yep");
-            customAlertDialog.setNewAlertDialogNoButton("Nope");
-            customAlertDialog.setupAlertDialogSettings();
-            customAlertDialog.getDialog().show();
-        }
+        drawingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container_for_fragments, new DrawingFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         return view;
     }
