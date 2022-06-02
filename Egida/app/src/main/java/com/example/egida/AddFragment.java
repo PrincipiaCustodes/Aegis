@@ -21,8 +21,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.jaiselrahman.filepicker.activity.FilePickerActivity;
-import com.jaiselrahman.filepicker.config.Configurations;
+/*import com.jaiselrahman.filepicker.activity.FilePickerActivity;
+import com.jaiselrahman.filepicker.config.Configurations;*/
 
 public class AddFragment extends Fragment {
 
