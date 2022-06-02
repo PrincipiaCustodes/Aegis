@@ -74,4 +74,22 @@ public class AesEncoder {
 
         writeBytesToFile(decryptedFilePath, decryptedBytes);
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    static void decodeFile (String encryptedFilePath, String decryptedFilePath, String keyString) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
+        File decryptedFile = new File(decryptedFilePath);
+        File encryptedFile = new File(encryptedFilePath);
+        byte[] encryptedBytes = Files.readAllBytes(Paths.get(encryptedFilePath));
+
+        //Keys keys = new Keys();
+        //String keyString = keys.getDecipherKey(encryptedFile.getName());
+
+        Cipher decryptCipher = Cipher.getInstance("AES");
+        SecretKeySpec key = new SecretKeySpec(keyString.getBytes(), "AES");
+        decryptCipher.init(Cipher.DECRYPT_MODE, key);
+
+        byte[] decryptedBytes = decryptCipher.doFinal(encryptedBytes);
+
+        writeBytesToFile(decryptedFilePath, decryptedBytes);
+    }
+
 }

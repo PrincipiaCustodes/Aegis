@@ -141,19 +141,32 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         CustomAlertDialog customAlertDialog = new CustomAlertDialog(context) {
                             @Override
                             public void positiveAction() {
-                                Biometrics biometrics = new Biometrics() {
-                                    @RequiresApi(api = Build.VERSION_CODES.O)
-                                    @Override
-                                    public void nextAction() {
-                                        DeleteFunction.deleteFile(selectedFile.getName());
-                                        ((FragmentActivity)context).getSupportFragmentManager()
-                                                .beginTransaction()
-                                                .replace(R.id.container_for_fragments, new DeleteFragment().newInstance("/data/data/com.example.egida/encrypted_files/"))
-                                                .addToBackStack(null)
-                                                .commit();
-                                    }
-                                };
-                                biometrics.biometricsPrompt(context);
+                                if(SharedPrefs.getBIOMETRICS_STATUS(context).equals(context.getString(R.string.biometrics_status_use))) {
+                                    Biometrics biometrics = new Biometrics() {
+                                        @RequiresApi(api = Build.VERSION_CODES.O)
+                                        @Override
+                                        public void nextAction() {
+                                            DeleteFunction.deleteFile(selectedFile.getName());
+                                            ((FragmentActivity) context).getSupportFragmentManager()
+                                                    .beginTransaction()
+                                                    .replace(R.id.container_for_fragments, new DeleteFragment().newInstance("/data/data/com.example.egida/encrypted_files/"))
+                                                    .addToBackStack(null)
+                                                    .commit();
+                                        }
+                                    };
+                                    biometrics.biometricsPrompt(context);
+                                    getDialog().dismiss();
+                                } else {
+                                    new Password(context) {
+                                        @RequiresApi(api = Build.VERSION_CODES.O)
+                                        @Override
+                                        public void passwordCorrectAction() {
+                                            DeleteFunction.deleteFile(selectedFile.getName());
+                                        }
+                                    };
+
+                                    getDialog().dismiss();
+                                }
                                 getDialog().dismiss();
                             }
 
@@ -180,18 +193,11 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         CustomAlertDialog customAlertDialog = new CustomAlertDialog(context) {
                             @Override
                             public void positiveAction() {
-                                Biometrics biometrics = new Biometrics() {
-                                    @Override
-                                    public void nextAction() {
-                                        ((FragmentActivity)context).getSupportFragmentManager()
-                                                .beginTransaction()
-                                                .replace(R.id.container_for_fragments, StartServerFragment.newInstance(selectedFile.toString()))
-                                                .addToBackStack(null)
-                                                .commit();
-                                    }
-                                };
-                                biometrics.biometricsPrompt(context);
-                                getDialog().dismiss();
+                                ((FragmentActivity)context).getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.container_for_fragments, StartServerFragment.newInstance(selectedFile.toString()))
+                                        .addToBackStack(null)
+                                        .commit();
                             }
 
                             @Override

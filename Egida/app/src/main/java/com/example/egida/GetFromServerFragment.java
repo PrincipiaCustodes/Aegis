@@ -1,7 +1,11 @@
 package com.example.egida;
 
+import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.os.Environment;
 import android.util.Log;
@@ -16,6 +20,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -55,6 +65,7 @@ public class GetFromServerFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_get_from_server, container, false);
@@ -74,11 +85,10 @@ public class GetFromServerFragment extends Fragment {
         textFromServer.setText(key);
 
         downloadFile(ip + "/" + file);
+        receiveFile();
 
         return view;
     }
-
-
 
     private void downloadFile(String url){
         Retrofit.Builder builder = new Retrofit.Builder().baseUrl(ip + "/");
@@ -102,10 +112,35 @@ public class GetFromServerFragment extends Fragment {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void receiveFile(){
+        try {
+            AesEncoder.decodeFile("/data/data/com.example.egida/shared_files/" + file, "/data/data/com.example.egida/shared_files/" + file, key);
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ((FragmentActivity)getContext()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container_for_fragments, DrawingFragment.newInstance("/data/data/com.example.egida/shared_files/"))
+                .addToBackStack(null)
+                .commit();
+    }
+
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
             //File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), file);
-            File fileIn = new File("/data/data/com.example.egida/encrypted_files/", file);
+            File fileIn = new File("/data/data/com.example.egida/shared_files/", file);
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
