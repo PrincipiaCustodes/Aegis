@@ -114,17 +114,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                     .addToBackStack(null)
                                     .commit();
                         }else{
-                            try {
-                                Intent intent = new Intent();
-                                intent.setAction(android.content.Intent.ACTION_VIEW);
-                                String type = "*/*";
-                                intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }catch (Exception e){
-                                Toast.makeText(context.getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
-                            }
-
                             ((FragmentActivity)context).getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.container_for_fragments, new DecodeFragment().newInstance(selectedFile.toString()))
@@ -198,6 +187,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                         .replace(R.id.container_for_fragments, StartServerFragment.newInstance(selectedFile.toString()))
                                         .addToBackStack(null)
                                         .commit();
+
+                                getDialog().dismiss();
                             }
 
                             @Override
