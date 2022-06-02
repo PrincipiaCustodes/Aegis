@@ -40,7 +40,7 @@ public class AesEncoder {
 
         Keys keys = new Keys();
 
-        //String keyString = "fd7c32e39427549e"; // TODO: add DrawingFragment call to return the key string
+        //String keyString = "fd7c32e39427549e";
 
         keys.setValues(Keys.getFileNameWithoutExtension(decryptedFile),
                 keyString,
