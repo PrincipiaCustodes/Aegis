@@ -79,11 +79,11 @@ public class DrawingView extends View {
         mCanvas = new Canvas(mBitmap);
     }
 
-    private String seed = "";
+    private static String seed = "";
 
-    String getKey() throws NoSuchAlgorithmException {
+    public static String getKey() throws NoSuchAlgorithmException {
         ShaEncoder encoder = new ShaEncoder(seed);
-        return encoder.sha256EncodeInput();
+        return encoder.sha256EncodeInput().substring(0, 8);
     }
 
     private float mX, mY;
