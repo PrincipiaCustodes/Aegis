@@ -29,7 +29,6 @@ public class LauncherFragment extends Fragment {
 
     RecyclerView filesList;
     TextView currentDirectory;
-    Button openAppDir;
 
     private File appDirectory;
     private File[] filesAndFolders;
@@ -61,7 +60,6 @@ public class LauncherFragment extends Fragment {
 
         filesList = view.findViewById(R.id.files_list);
         currentDirectory = view.findViewById(R.id.currentFolder);
-        openAppDir = view.findViewById(R.id.openAppDir);
 
         currentDirectory.setText(getArguments().getString(ARG_PARAM1));
 

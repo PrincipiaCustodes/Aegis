@@ -18,15 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/openAppDir"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Open app directory"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentFolder" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/files_list"
         android:layout_width="0dp"
@@ -34,6 +25,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/openAppDir"
+        app:layout_constraintTop_toBottomOf="@+id/currentFolder"
         tools:listitem="@layout/recycler_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
