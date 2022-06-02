@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 
 import java.io.File;
@@ -77,6 +78,12 @@ public class DrawingFragment extends Fragment {
                 } catch (InvalidKeyException e) {
                     e.printStackTrace();
                 }
+
+                ((FragmentActivity)getContext()).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container_for_fragments, new DownloadFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
