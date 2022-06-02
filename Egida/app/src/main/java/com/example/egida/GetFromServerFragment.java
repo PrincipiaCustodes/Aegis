@@ -66,8 +66,7 @@ public class GetFromServerFragment extends Fragment {
         data = message.split("\\|");
 
         ip = data[0];
-        password = data[1];
-        key = data[2];
+        key = data[1];
 
         ipText.setText(ip);
         passwordText.setText(key);

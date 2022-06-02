@@ -38,8 +38,11 @@ public class ShareFragment extends Fragment {
 
     Button genButton;
     ImageView qrCode;
+
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch serverState;
+
+    private String fileName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +104,7 @@ public class ShareFragment extends Fragment {
                 .append(":")
                 .append(Server.getPort())
                 .append("|")
-                .append(genSecretCode())
+                .append(fileName)
                 .append("|")
                 .append(getKey());
 
@@ -113,16 +116,6 @@ public class ShareFragment extends Fragment {
         return Formatter.formatIpAddress(((WifiManager)getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getIpAddress());
     }
 
-    private String genSecretCode(){
-        String secretCode = null;
-        try {
-            // каждый раз генерируется разный код, т.к. меняются входные данные для хеширования (время, возможно ip сети)
-            secretCode = new ShaEncoder((Calendar.getInstance().getTime() + getIP())).sha256EncodeInput();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return secretCode;
-    }
 
     private String getKey(){
         // TODO: Миша, нужно передать сюда ключ для расшифровки
