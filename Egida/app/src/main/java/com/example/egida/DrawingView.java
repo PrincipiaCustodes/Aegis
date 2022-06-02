@@ -83,7 +83,7 @@ public class DrawingView extends View {
 
     public static String getKey() throws NoSuchAlgorithmException {
         ShaEncoder encoder = new ShaEncoder(seed);
-        return encoder.sha256EncodeInput().substring(0, 8);
+        return encoder.sha256EncodeInput().substring(0, 16);
     }
 
     private float mX, mY;

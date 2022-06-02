@@ -57,8 +57,10 @@ public class DrawingFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     AesEncoder.keyString = DrawingView.getKey();
-                    Toast.makeText(getContext(), DrawingView.getKey(), Toast.LENGTH_SHORT).show();
-                    AesEncoder.encodeFile(decryptedFilePath, "/data/data/com.example.egida/encrypted_files/newFile");
+                    Toast.makeText(getContext(), "/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()), Toast.LENGTH_SHORT).show();
+                    File decryptedFile = new File("/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()));
+                    AesEncoder.encodeFile("/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()),
+                            "/data/data/com.example.egida/encrypted_files/" + Keys.getFileNameWithoutExtension(decryptedFile));
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (NoSuchPaddingException e) {
