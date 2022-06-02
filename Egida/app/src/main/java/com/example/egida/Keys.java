@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class Keys {
 
-    private static Map<String, Pair<String, String>> keys;
+    private static Map<String, String> keys;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Keys() throws IOException {
@@ -66,17 +66,17 @@ public class Keys {
         keys = gson.fromJson(json, HashMap.class);
     }
 
-    public void setValues(String name, String key, String extension) {
-        keys.put(name, new Pair<>(key, extension));
+    public void setValues(String name, String key) {
+        keys.put(name, key);
         saveToJson();
     }
 
-    public String getDecipherKey(String name) {
-        return keys.get(name).first;
+    public static String getDecipherKey(String name) {
+        return keys.get(name);
     }
 
-    public String getDecipherExtension(String name) {
-        return keys.get(name).second;
+    public  String getDecipherExtension(String name) {
+        return keys.get(name);
     }
 
     static String getFileNameWithoutExtension(File file) {

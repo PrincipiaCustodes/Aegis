@@ -71,13 +71,13 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new DownloadFragment();
                         break;
                     case 3:
-                        fragment = new LauncherFragment().newInstance("/sdcard/DCIM/");
+                        fragment = new LauncherFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
                         break;
                     case 4:
                         fragment = new AddFragment();
                         break;
                     case 5:
-                        fragment = new ShareFragment();
+                        fragment = new ShareFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
                         break;
                 }
 

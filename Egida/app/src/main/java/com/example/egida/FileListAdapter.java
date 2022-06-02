@@ -153,7 +153,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                 Biometrics biometrics = new Biometrics() {
                                     @Override
                                     public void nextAction() {
-                                        // TODO: функция удаления
+
                                     }
                                 };
                                 biometrics.biometricsPrompt(context);
@@ -169,6 +169,43 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         customAlertDialog.setNewAlertDialogTittle("Deleting a file");
                         customAlertDialog.setNewAlertDialogDescription("The file will be removed from the application directory and will not be encrypted");
                         customAlertDialog.setNewAlertDialogQuestion("Are you sure you want to delete the file?");
+                        customAlertDialog.setNewAlertDialogOkButton("Yep");
+                        customAlertDialog.setNewAlertDialogNoButton("Nope");
+                        customAlertDialog.setupAlertDialogSettings();
+                        customAlertDialog.getDialog().show();
+                    }
+                });
+                break;
+            case "share":
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context) {
+                            @Override
+                            public void positiveAction() {
+                                Biometrics biometrics = new Biometrics() {
+                                    @Override
+                                    public void nextAction() {
+                                        ((FragmentActivity)context).getSupportFragmentManager()
+                                                .beginTransaction()
+                                                .replace(R.id.container_for_fragments, StartServerFragment.newInstance(selectedFile.toString()))
+                                                .addToBackStack(null)
+                                                .commit();
+                                    }
+                                };
+                                biometrics.biometricsPrompt(context);
+                                getDialog().dismiss();
+                            }
+
+                            @Override
+                            public void negativeAction() {
+                                getDialog().dismiss();
+                            }
+                        };
+                        customAlertDialog.setAlertDialogImageId(R.drawable.icon);
+                        customAlertDialog.setNewAlertDialogTittle("Share a file");
+                        customAlertDialog.setNewAlertDialogDescription("File will be sent to the client");
+                        customAlertDialog.setNewAlertDialogQuestion("Are you sure you want to share this file?");
                         customAlertDialog.setNewAlertDialogOkButton("Yep");
                         customAlertDialog.setNewAlertDialogNoButton("Nope");
                         customAlertDialog.setupAlertDialogSettings();

@@ -42,10 +42,7 @@ public class AesEncoder {
 
         //String keyString = "fd7c32e39427549e";
 
-        keys.setValues(Keys.getFileNameWithoutExtension(decryptedFile),
-                keyString,
-                decryptedFile.getName().substring(Keys.getFileNameWithoutExtension(decryptedFile).length() + 1,
-                decryptedFile.getName().length()));
+        keys.setValues(decryptedFile.getName(), keyString);
 
         Cipher cipher = Cipher.getInstance("AES");
         SecretKeySpec key = new SecretKeySpec(keyString.getBytes(), "AES");

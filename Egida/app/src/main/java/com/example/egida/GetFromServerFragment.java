@@ -30,7 +30,7 @@ public class GetFromServerFragment extends Fragment {
     TextView textFromServer;
 
     private String ip;
-    private String password;
+    private String file;
     private String key;
     private String[] data;
 
@@ -66,12 +66,14 @@ public class GetFromServerFragment extends Fragment {
         data = message.split("\\|");
 
         ip = data[0];
-        key = data[1];
+        file = data[1];
+        key = data[2];
 
         ipText.setText(ip);
-        passwordText.setText(key);
+        passwordText.setText(file);
+        textFromServer.setText(key);
 
-        downloadFile("http://192.168.100.9:8080/image.jpg");
+        downloadFile(ip + "/" + file);
 
         return view;
     }
@@ -79,7 +81,7 @@ public class GetFromServerFragment extends Fragment {
 
 
     private void downloadFile(String url){
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl("http://192.168.100.9:8080/");
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(ip + "/");
 
         Retrofit retrofit = builder.build();
         RetrofitServerAPI jsonServerAPI = retrofit.create(RetrofitServerAPI.class);
@@ -102,7 +104,8 @@ public class GetFromServerFragment extends Fragment {
 
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "bla2.jpg");
+            //File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), file);
+            File fileIn = new File("/data/data/com.example.egida/encrypted_files/", file);
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -114,7 +117,7 @@ public class GetFromServerFragment extends Fragment {
                 long fileSizeDownloaded = 0;
 
                 inputStream = body.byteStream();
-                outputStream = new FileOutputStream(futureStudioIconFile);
+                outputStream = new FileOutputStream(fileIn);
 
                 while (true) {
                     int read = inputStream.read(fileReader);

@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.StrictMode;
 import android.text.format.Formatter;
@@ -21,6 +23,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -28,6 +31,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -36,90 +40,47 @@ import java.util.Calendar;
 
 public class ShareFragment extends Fragment {
 
-    Button genButton;
-    ImageView qrCode;
+    private static final String ARG_PARAM1 = "param1";
 
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    Switch serverState;
+    RecyclerView filesList;
+    TextView currentDirectory;
+    Button openAppDir;
 
-    private String fileName;
+    private File appDirectory;
+    private File[] filesAndFolders;
+
+    public ShareFragment(){}
+
+    public static ShareFragment newInstance(String param1) {
+        ShareFragment fragment = new ShareFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            appDirectory = new File(getArguments().getString(ARG_PARAM1));
+            filesAndFolders = appDirectory.listFiles();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_share, container, false);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        filesList = view.findViewById(R.id.files_list);
+        currentDirectory = view.findViewById(R.id.currentFolder);
+        openAppDir = view.findViewById(R.id.openAppDir);
 
-        genButton = view.findViewById(R.id.gen_qr_code_btn);
-        qrCode = view.findViewById(R.id.qr_code);
-        serverState = view.findViewById(R.id.switch1);
+        currentDirectory.setText(getArguments().getString(ARG_PARAM1));
 
-        genButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View view) {
-                createQrCode();
-            }
-        });
-
-        Server server = new Server("/data/data/com.example.egida/encrypted_files/");
-        serverState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                Thread thread = new Thread(server);
-                if(isChecked){
-                    thread.start();
-                } else {
-                    server.stopServer();
-                }
-            }
-        });
+        filesList.setLayoutManager(new LinearLayoutManager(getContext()));
+        filesList.setAdapter(new FileListAdapter(getActivity(), filesAndFolders, "share"));
 
         return view;
-    }
-
-    private void createQrCode(){
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(createQrCodeMessage(), BarcodeFormat.QR_CODE, 350, 350);
-
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-            qrCode.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String createQrCodeMessage(){
-        StringBuffer qrCodeMessage = new StringBuffer();
-        qrCodeMessage.append("http://")
-                .append(getIP())
-                .append(":")
-                .append(Server.getPort())
-                .append("|")
-                .append(fileName)
-                .append("|")
-                .append(getKey());
-
-        return qrCodeMessage.toString();
-    }
-
-    private String getIP(){
-        //WifiManager wifiManager = ;
-        return Formatter.formatIpAddress(((WifiManager)getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getIpAddress());
-    }
-
-
-    private String getKey(){
-        // TODO: Миша, нужно передать сюда ключ для расшифровки
-        String key = "UKYQ74fBMd+nq9SyUUBrCw==";
-        return key;
     }
 }
