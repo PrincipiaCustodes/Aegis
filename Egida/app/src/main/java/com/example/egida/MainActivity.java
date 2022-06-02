@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,10 +33,8 @@ import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity {
 
-    // bottom navigation bar
     private MeowBottomNavigation bottomNavigation;
 
-    // navigation drawer
     private ImageView menuIcon;
     private DrawerLayout navigationDrawerLayout;
     private NavigationView navigationView;
@@ -66,19 +65,19 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (item.getId()){
                     case 1:
-                        fragment = new DeleteFragment();
+                        fragment = new DeleteFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
                         break;
                     case 2:
                         fragment = new DownloadFragment();
                         break;
                     case 3:
-                        fragment = new LauncherFragment();
+                        fragment = new LauncherFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
                         break;
                     case 4:
                         fragment = new AddFragment();
                         break;
                     case 5:
-                        fragment = new ShareFragment();
+                        fragment = new ShareFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
                         break;
                 }
 
@@ -131,5 +130,10 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.container_for_fragments, fragment)
                 .commit();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

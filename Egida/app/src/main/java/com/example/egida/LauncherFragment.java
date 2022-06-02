@@ -1,72 +1,83 @@
 package com.example.egida;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
+import java.io.File;
 
 
 public class LauncherFragment extends Fragment {
 
-    Button testButton;
-    TextView testText;
+    RecyclerView filesList;
+    TextView currentDirectory;
 
-    private SharedPreferences sharedPref;
-    private static final String NICKNAME_PREF_TAG = "nickname";
-    private static final String SECURITY_STATUS_PREF_TAG = "security_status";
+    private File appDirectory;
+    private File[] filesAndFolders;
+
+    private static final String ARG_PARAM1 = "param1";
+
+    public LauncherFragment(){}
+
+    public static LauncherFragment newInstance(String param1) {
+        LauncherFragment fragment = new LauncherFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            appDirectory = new File(getArguments().getString(ARG_PARAM1));
+            filesAndFolders = appDirectory.listFiles();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_launcher, container, false);
-        testButton = view.findViewById(R.id.test_btn);
-        testText = view.findViewById(R.id.test_text);
 
-        testText.setText(SharedPrefs.getNICKNAME(getContext()));
+        filesList = view.findViewById(R.id.files_list);
+        currentDirectory = view.findViewById(R.id.currentFolder);
 
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(SharedPrefs.getBIOMETRICS_STATUS(getContext()).equals(getString(R.string.biometrics_status_use))){
-                    Biometrics biometrics = new Biometrics() {
-                        @Override
-                        public void nextAction() {
-                            testText.setBackgroundColor(getActivity().getResources().getColor(R.color.my_red));
-                        }
-                    };
-                    biometrics.biometricsPrompt(getContext());
-                } else {
-                    new Password(getContext()) {
-                        @Override
-                        public void passwordCorrectAction() {
-                            testText.setBackgroundColor(getActivity().getResources().getColor(R.color.teal_700));
-                        }
-                    };
-                }
-            }
-        });
+        currentDirectory.setText(getArguments().getString(ARG_PARAM1));
+
+        filesList.setLayoutManager(new LinearLayoutManager(getContext()));
+        filesList.setAdapter(new FileListAdapter(getActivity(), filesAndFolders, "launcher"));
 
         return view;
     }
 
-    private String getNickname(){
-        sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
-        return sharedPref.getString(NICKNAME_PREF_TAG, "error");
+    private boolean checkPermission(){
+        int result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 
-    private String getSecurityStatus(){
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("PreferencesFile", Context.MODE_PRIVATE);
-        return sharedPref.getString(SECURITY_STATUS_PREF_TAG, "security_status_error");
+    private void requestPermission(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            Toast.makeText(getActivity(), "Storage permission is requires,please allow from settings", Toast.LENGTH_SHORT).show();
+        }else
+            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},111);
     }
 }
