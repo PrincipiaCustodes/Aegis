@@ -1,5 +1,6 @@
 package com.example.egida;
 
+import android.net.Uri;
 import android.os.Build;
 import android.os.FileUtils;
 import android.util.Log;
@@ -25,6 +26,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 public class AesEncoder {
+    public static String keyString;
+
     static void writeBytesToFile(String fileOutput, byte[] bytes) throws IOException {
         FileOutputStream out = new FileOutputStream(fileOutput);
         out.write(bytes);
@@ -37,7 +40,7 @@ public class AesEncoder {
 
         Keys keys = new Keys();
 
-        String keyString = "fd7c32e39427549e"; // TODO: add DrawingFragment call to return the key string
+        //String keyString = "fd7c32e39427549e"; // TODO: add DrawingFragment call to return the key string
 
         keys.setValues(Keys.getFileNameWithoutExtension(decryptedFile),
                 keyString,
