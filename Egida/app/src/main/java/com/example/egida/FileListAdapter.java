@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.nio.file.Path;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -112,17 +114,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                     .addToBackStack(null)
                                     .commit();
                         }else{
-                            /*try {
-                                Intent intent = new Intent();
-                                intent.setAction(android.content.Intent.ACTION_VIEW);
-                                String type = "image/*";
-                                intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
-                            }catch (Exception e){
-                                Toast.makeText(context.getApplicationContext(),"Error",Toast.LENGTH_SHORT).show();
-                            }*/
-
                             try {
                                 Intent intent = new Intent();
                                 intent.setAction(android.content.Intent.ACTION_VIEW);
@@ -151,9 +142,15 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                             @Override
                             public void positiveAction() {
                                 Biometrics biometrics = new Biometrics() {
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
                                     @Override
                                     public void nextAction() {
-
+                                        DeleteFunction.deleteFile(selectedFile.getName());
+                                        ((FragmentActivity)context).getSupportFragmentManager()
+                                                .beginTransaction()
+                                                .replace(R.id.container_for_fragments, new DeleteFragment().newInstance("/data/data/com.example.egida/encrypted_files/"))
+                                                .addToBackStack(null)
+                                                .commit();
                                     }
                                 };
                                 biometrics.biometricsPrompt(context);

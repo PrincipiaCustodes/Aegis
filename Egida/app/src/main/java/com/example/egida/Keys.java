@@ -78,7 +78,7 @@ public class Keys {
     public  String getDecipherExtension(String name) {
         return keys.get(name);
     }
-    
+
     public void remove(String name) {
         keys.remove(name);
         saveToJson();
