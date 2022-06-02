@@ -31,6 +31,7 @@ public class GetFromServerFragment extends Fragment {
 
     private String ip;
     private String password;
+    private String key;
     private String[] data;
 
     private static final String ARG_PARAM1 = "param1";
@@ -66,9 +67,10 @@ public class GetFromServerFragment extends Fragment {
 
         ip = data[0];
         password = data[1];
+        key = data[2];
 
         ipText.setText(ip);
-        passwordText.setText(password);
+        passwordText.setText(key);
 
         downloadFile("http://192.168.100.9:8080/image.jpg");
 

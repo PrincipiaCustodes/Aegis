@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new DownloadFragment();
                         break;
                     case 3:
-                        fragment = new LauncherFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
+                        fragment = new LauncherFragment().newInstance("/sdcard/DCIM/");
                         break;
                     case 4:
                         fragment = new AddFragment();

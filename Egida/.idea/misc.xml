@@ -20,7 +20,9 @@
         <entry key="..\:/Users/Acer/Documents/AndroidProjects/Aegis/Egida/app/src/main/res/layout/fragment_get_from_server.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/Acer/Documents/AndroidProjects/Aegis/Egida/app/src/main/res/layout/fragment_launcher.xml" value="0.22" />
         <entry key="..\:/Users/Acer/Documents/AndroidProjects/Aegis/Egida/app/src/main/res/layout/fragment_qr_code_scanner.xml" value="0.18" />
-        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Aegis/Egida/app/src/main/res/layout/fragment_share.xml" value="0.25" />
+        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Aegis/Egida/app/src/main/res/layout/fragment_share.xml" value="0.5" />
+        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Aegis/Egida/app/src/main/res/layout/fragment_sign_up_nickname.xml" value="0.1712962962962963" />
+        <entry key="..\:/Users/Acer/Documents/AndroidProjects/Aegis/Egida/app/src/main/res/layout/fragment_sign_up_password.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/Acer/Documents/AndroidProjects/Aegis/Egida/app/src/main/res/layout/nav_header.xml" value="0.16296296296296298" />
         <entry key="..\:/Users/Acer/Documents/AndroidProjects/Aegis/Egida/app/src/main/res/layout/recycler_item.xml" value="0.25" />
         <entry key="..\:/Users/Acer/Documents/AndroidProjects/Egida/Egida/app/src/main/res/drawable/custom_alertdialog_background.xml" value="0.1095" />

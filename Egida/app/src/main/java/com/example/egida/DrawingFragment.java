@@ -51,6 +51,8 @@ public class DrawingFragment extends Fragment {
 
         confirm = view.findViewById(R.id.confirm_btn);
 
+        confirm.setText(decryptedFilePath);
+
         confirm.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -58,7 +60,7 @@ public class DrawingFragment extends Fragment {
                 try {
                     AesEncoder.keyString = DrawingView.getKey();
                     Toast.makeText(getContext(), DrawingView.getKey(), Toast.LENGTH_SHORT).show();
-                    AesEncoder.encodeFile(decryptedFilePath, "/data/data/com.example.egida/encrypted_files/newFile");
+                    AesEncoder.encodeFile("/sdcard/DCIM/file.png", "/data/data/com.example.egida/encrypted_files/newFile");
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (NoSuchPaddingException e) {

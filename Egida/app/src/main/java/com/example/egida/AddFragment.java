@@ -1,8 +1,10 @@
 package com.example.egida;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +15,8 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -38,7 +42,7 @@ import javax.crypto.NoSuchPaddingException;
 
 public class AddFragment extends Fragment {
 
-    //private static final int REQUEST_FILES = -1;
+    private static final int PERMISSION_REQUEST_CODE = 1;
     Button addFile;
     public static String fileAbsolutePath;
 
@@ -55,7 +59,11 @@ public class AddFragment extends Fragment {
         addFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                filePicker1();
+                if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)){
+                    filePicker1();
+                } else {
+                    requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+                }
             }
         });
 
@@ -97,6 +105,23 @@ public class AddFragment extends Fragment {
             cursor.moveToFirst();
             int id = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             return cursor.getString(id);
+        }
+    }
+
+    private boolean checkPermission(String permission) {
+        int result = ContextCompat.checkSelfPermission(getActivity(), permission);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void requestPermission(String permission) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permission)) {
+            Toast.makeText(getActivity(), "Please Allow Permission", Toast.LENGTH_SHORT).show();
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{permission}, PERMISSION_REQUEST_CODE);
         }
     }
 }
