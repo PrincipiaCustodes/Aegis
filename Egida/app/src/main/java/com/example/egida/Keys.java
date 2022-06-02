@@ -71,11 +71,16 @@ public class Keys {
         saveToJson();
     }
 
-    public String getDecipherKey(String name) {
+    public void remove(String name) {
+        keys.remove(name);
+        saveToJson();
+    }
+
+    static public String getDecipherKey(String name) {
         return keys.get(name).first;
     }
 
-    public String getDecipherExtension(String name) {
+    static public String getDecipherExtension(String name) {
         return keys.get(name).second;
     }
 
