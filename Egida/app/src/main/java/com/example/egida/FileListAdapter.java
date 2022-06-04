@@ -114,7 +114,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                     .replace(R.id.container_for_fragments, LauncherFragment.newInstance(selectedFile.getAbsolutePath()), "LauncherFragment")
                                     .addToBackStack(null)
                                     .commit();
-                        }else{
+                        } else {
                             ((FragmentActivity)context).getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.container_for_fragments, new DecodeFragment().newInstance(selectedFile.getAbsolutePath()))
@@ -212,12 +212,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        File file = new File(String.valueOf(selectedFile));
-//                        Uri path = Uri.fromFile(file);
-//                        Intent openIntent = new Intent(Intent.ACTION_VIEW);
-//                        openIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        openIntent.setDataAndType(path, "*/*");
-//                        context.startActivity(openIntent);
+//                      File file = new File(String.valueOf(selectedFile));
+//                      Uri path = Uri.fromFile(file);
+//                      Intent openIntent = new Intent(Intent.ACTION_VIEW);
+//                      openIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                      openIntent.setDataAndType(path, "*/*");
+//                      context.startActivity(openIntent);
                         Intent intent = new Intent();
                         intent.setAction(android.content.Intent.ACTION_VIEW);
                         String type = "image/*";

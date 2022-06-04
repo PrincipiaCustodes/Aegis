@@ -28,8 +28,10 @@ public class DecodeFragment extends Fragment {
     RecyclerView filesList;
     TextView currentDirectory;
 
-    private File appDirectory;
+    //private File appDirectory;
     private File[] filesAndFolders;
+
+    private String selectedFile;
 
     private static final String ARG_PARAM1 = "param1";
 
@@ -47,8 +49,7 @@ public class DecodeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            appDirectory = new File(getArguments().getString(ARG_PARAM1));
-            filesAndFolders = appDirectory.listFiles();
+            selectedFile = getArguments().getString(ARG_PARAM1);
         }
     }
 
@@ -58,16 +59,16 @@ public class DecodeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_decode, container, false);
 
-        filesList = view.findViewById(R.id.files_list);
-        currentDirectory = view.findViewById(R.id.currentFolder);
+        filesList = view.findViewById(R.id.decode_files_list);
+        currentDirectory = view.findViewById(R.id.currentDecodeFolder);
 
-        currentDirectory.setText(getArguments().getString(ARG_PARAM1));
+        currentDirectory.setText(selectedFile);
 
         filesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        filesList.setAdapter(new FileListAdapter(getActivity(), filesAndFolders,  "open"));
+        filesList.setAdapter(new FileListAdapter(getActivity(), new File("/data/data/com.example.egida/shared_files/").listFiles(),  "open"));
 
         try {
-            AesEncoder.decodeFile(filesAndFolders[0].getName(), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
+            AesEncoder.decodeFile(selectedFile, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/file1.jpg");
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {

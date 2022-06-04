@@ -7,7 +7,7 @@
     tools:context=".DecodeFragment">
 
     <TextView
-        android:id="@+id/currentFolder"
+        android:id="@+id/currentDecodeFolder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -18,12 +18,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/files_list"
+        android:id="@+id/decode_files_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentFolder"
+        app:layout_constraintTop_toBottomOf="@+id/currentDecodeFolder"
         tools:listitem="@layout/recycler_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
