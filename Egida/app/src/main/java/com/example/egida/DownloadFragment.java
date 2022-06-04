@@ -12,14 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import soup.neumorphism.NeumorphImageButton;
+
 public class DownloadFragment extends Fragment {final int REQUEST_CODE = 11;
 
-    Button startScan;
+    NeumorphImageButton startScan;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".StartServerFragment">
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/start_server_btn"
+        style="@style/main_body_greek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start server"
-        style="@style/main_body_greek"
-        app:layout_constraintBottom_toTopOf="@+id/gen_qr_code_btn"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,21 +24,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_appbar_top_background"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Generate qr-code"
+        android:textColor="@color/white"
+        style="@style/main_body_greek"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/start_server_btn" />
 
     <ImageView
         android:id="@+id/qr_code"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="56dp"
         android:adjustViewBounds="true"
+        android:background="@drawable/custom_alertdialog_background"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gen_qr_code_btn" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,10 +40,12 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import soup.neumorphism.NeumorphImageButton;
+
 public class AddFragment extends Fragment {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
-    Button addFile;
+    NeumorphImageButton addFile;
     public static String fileAbsolutePath;
 
     @Override

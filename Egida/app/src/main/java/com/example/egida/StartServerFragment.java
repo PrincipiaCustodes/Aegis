@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -79,17 +80,18 @@ public class StartServerFragment extends Fragment {
 
         genButton = view.findViewById(R.id.gen_qr_code_btn);
         qrCode = view.findViewById(R.id.qr_code);
-        serverState = view.findViewById(R.id.switch1);
+        serverState = view.findViewById(R.id.start_server_btn);
 
+        genButton.setVisibility(View.GONE);
         genButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
+                Toast.makeText(getContext(), Keys.getDecipherKey(fileName), Toast.LENGTH_SHORT).show();
                 createQrCode();
             }
         });
 
-        serverState.setText(Keys.getDecipherKey(fileName));
 
         Server server = new Server("/data/data/com.example.egida/encrypted_files/");
         serverState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -98,6 +100,7 @@ public class StartServerFragment extends Fragment {
                 Thread thread = new Thread(server);
                 if(isChecked){
                     thread.start();
+                    genButton.setVisibility(View.VISIBLE);
                 } else {
                     server.stopServer();
                 }
