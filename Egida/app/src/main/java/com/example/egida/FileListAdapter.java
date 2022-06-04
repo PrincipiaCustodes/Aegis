@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -116,7 +117,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         }else{
                             ((FragmentActivity)context).getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.container_for_fragments, new DecodeFragment().newInstance(selectedFile.toString()))
+                                    .replace(R.id.container_for_fragments, new DecodeFragment().newInstance(selectedFile.getAbsolutePath()))
                                     .addToBackStack(null)
                                     .commit();
                         }
@@ -204,6 +205,25 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                         customAlertDialog.setNewAlertDialogNoButton("Nope");
                         customAlertDialog.setupAlertDialogSettings();
                         customAlertDialog.getDialog().show();
+                    }
+                });
+                break;
+            case "open":
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        File file = new File(String.valueOf(selectedFile));
+//                        Uri path = Uri.fromFile(file);
+//                        Intent openIntent = new Intent(Intent.ACTION_VIEW);
+//                        openIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        openIntent.setDataAndType(path, "*/*");
+//                        context.startActivity(openIntent);
+                        Intent intent = new Intent();
+                        intent.setAction(android.content.Intent.ACTION_VIEW);
+                        String type = "image/*";
+                        intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
                     }
                 });
                 break;

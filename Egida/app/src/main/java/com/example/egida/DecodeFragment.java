@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -22,10 +25,13 @@ import javax.crypto.NoSuchPaddingException;
 
 public class DecodeFragment extends Fragment {
 
-    TextView fileName;
+    RecyclerView filesList;
+    TextView currentDirectory;
+
+    private File appDirectory;
+    private File[] filesAndFolders;
 
     private static final String ARG_PARAM1 = "param1";
-    private String name;
 
     public DecodeFragment() {}
 
@@ -41,7 +47,8 @@ public class DecodeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            name = getArguments().getString(ARG_PARAM1);
+            appDirectory = new File(getArguments().getString(ARG_PARAM1));
+            filesAndFolders = appDirectory.listFiles();
         }
     }
 
@@ -51,10 +58,16 @@ public class DecodeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_decode, container, false);
 
-        fileName = view.findViewById(R.id.fileName);
+        filesList = view.findViewById(R.id.files_list);
+        currentDirectory = view.findViewById(R.id.currentFolder);
+
+        currentDirectory.setText(getArguments().getString(ARG_PARAM1));
+
+        filesList.setLayoutManager(new LinearLayoutManager(getContext()));
+        filesList.setAdapter(new FileListAdapter(getActivity(), filesAndFolders,  "open"));
 
         try {
-            AesEncoder.decodeFile(name, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
+            AesEncoder.decodeFile(filesAndFolders[0].getName(), Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString());
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
