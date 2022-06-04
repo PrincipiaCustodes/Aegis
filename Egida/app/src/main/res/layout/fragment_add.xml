@@ -7,7 +7,7 @@
     tools:context=".AddFragment">
 
 
-    <Button
+    <!--<Button
         android:id="@+id/drawing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,5 +15,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
+    <soup.neumorphism.NeumorphImageButton
+        android:id="@+id/drawing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_upload_file"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:neumorph_shapeType="flat" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

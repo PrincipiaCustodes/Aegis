@@ -16,4 +16,5 @@
     <!-- my colors -->
     <color name="background_color">#F1F2F4</color>
     <color name="my_red">#fd6b5b</color>
+    <color name="my_gray">#484848</color>
 </resources>

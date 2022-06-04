@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".DownloadFragment">
 
-    <Button
+    <!--<Button
         android:id="@+id/startScan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,5 +15,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--<ImageButton
+        android:id="@+id/startScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_qrscanner_btn_background"
+        android:src="@drawable/ic_qr_code_scanner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <soup.neumorphism.NeumorphImageButton
+        android:id="@+id/startScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_qr_code_scanner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:neumorph_shapeType="flat" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
