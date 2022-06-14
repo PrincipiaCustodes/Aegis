@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 
 import androidx.annotation.RequiresApi;
@@ -115,9 +116,15 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                     .addToBackStack(null)
                                     .commit();
                         } else {
+                            try {
+                                Check.clearExtractedFilesDir();
+                                Check.clearDecryptedFilesDir();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             ((FragmentActivity)context).getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.container_for_fragments, new DecodeFragment().newInstance(selectedFile.getAbsolutePath()))
+                                    .replace(R.id.container_for_fragments, DecodeFragment.newInstance(selectedFile.getAbsolutePath()))
                                     .addToBackStack(null)
                                     .commit();
                         }
@@ -139,7 +146,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                             DeleteFunction.deleteFile(selectedFile.getName());
                                             ((FragmentActivity) context).getSupportFragmentManager()
                                                     .beginTransaction()
-                                                    .replace(R.id.container_for_fragments, new DeleteFragment().newInstance("/data/data/com.example.egida/encrypted_files/"))
+                                                    .replace(R.id.container_for_fragments, DeleteFragment.newInstance(Check.encryptedFilesPath))
                                                     .addToBackStack(null)
                                                     .commit();
                                         }
@@ -212,18 +219,25 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                      File file = new File(String.valueOf(selectedFile));
-//                      Uri path = Uri.fromFile(file);
-//                      Intent openIntent = new Intent(Intent.ACTION_VIEW);
-//                      openIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                      openIntent.setDataAndType(path, "*/*");
-//                      context.startActivity(openIntent);
+                        //File file = new File(String.valueOf(selectedFile));
+                        // Uri path = Uri.fromFile(file);
+                        // Intent openIntent = new Intent(Intent.ACTION_VIEW);
+                        // openIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);*/
+                        // openIntent.setDataAndType(path, "*/*");
+                        // context.startActivity(openIntent);
+
                         Intent intent = new Intent();
                         intent.setAction(android.content.Intent.ACTION_VIEW);
                         String type = "image/*";
                         intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
+
+                        /*Intent intent = new Intent();
+                        intent.setAction(android.content.Intent.ACTION_VIEW);
+                        Uri uri = Uri.parse("file://" + selectedFile.getAbsolutePath());
+                        intent.setDataAndType(uri,"image/*");
+                        context.startActivity(intent);*/
                     }
                 });
                 break;

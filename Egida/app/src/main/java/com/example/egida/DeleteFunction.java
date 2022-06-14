@@ -19,7 +19,7 @@ public class DeleteFunction {
                 e.printStackTrace();
             }
             keys.remove(fileName);
-        File file = new File("/data/data/com.example.egida/encrypted_files/", fileName);
+        File file = new File(Check.encryptedFilesPath, fileName);
         file.delete();
     }
 }

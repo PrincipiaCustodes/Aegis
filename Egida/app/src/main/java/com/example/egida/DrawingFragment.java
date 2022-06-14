@@ -59,30 +59,18 @@ public class DrawingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    AesEncoder.keyString = DrawingView.getKey();
-
                     Toast.makeText(getContext(), "/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()), Toast.LENGTH_SHORT).show();
                     File decryptedFile = new File("/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()));
-                    AesEncoder.encodeFile("/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()),
-                            "/data/data/com.example.egida/encrypted_files/" + decryptedFile.getName());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (NoSuchPaddingException e) {
-                    e.printStackTrace();
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                } catch (IllegalBlockSizeException e) {
-                    e.printStackTrace();
-                } catch (BadPaddingException e) {
-                    e.printStackTrace();
-                } catch (InvalidKeyException e) {
+                    Aes256Encoder.encodeFile(decryptedFile, DrawingView.getKey());
+                    Keys keys = new Keys();
+                    keys.setValues(decryptedFile.getName(), DrawingView.getKey());
+                } catch (IOException | NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
                     e.printStackTrace();
                 }
 
                 ((FragmentActivity)getContext()).getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.container_for_fragments, new DownloadFragment())
-                        .addToBackStack(null)
+                        .replace(R.id.container_for_fragments, new AddFragment())
                         .commit();
             }
         });
