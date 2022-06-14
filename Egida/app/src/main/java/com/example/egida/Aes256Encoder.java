@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Aes256Encoder {
     public static void encodeFile(File inFile, String keyString) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
-
+    
         SecretKeySpec key = new SecretKeySpec(keyString.getBytes(), "AES");
 
         @SuppressLint("GetInstance")
