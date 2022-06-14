@@ -23,9 +23,6 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*File file = new File("/data/data/com.example.egida/app_files/", "keys.json");
-        file.delete();*/
-
         try {
             Keys keys = new Keys();
         } catch (IOException e) {

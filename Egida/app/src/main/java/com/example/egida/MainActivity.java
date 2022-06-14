@@ -1,27 +1,19 @@
 package com.example.egida;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.biometric.BiometricManager;
-import androidx.core.content.ContextCompat;
 
-import androidx.biometric.BiometricPrompt;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +21,8 @@ import android.widget.Toast;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.concurrent.Executor;
+import java.io.IOException;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout navigationDrawerLayout;
     private NavigationView navigationView;
 
+    private TextView title;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         navigationDrawerLayout = findViewById(R.id.navigation_drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
         menuIcon = findViewById(R.id.menu_icon);
+
+        title = findViewById(R.id.title_of_appBar);
+
+        Check.mainDirectories();
 
         // устанавливаем цвет системной навигации, чтобы он сливался с navbar-ом
         getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
@@ -65,19 +65,19 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (item.getId()){
                     case 1:
-                        fragment = new DeleteFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
+                        fragment = DeleteFragment.newInstance(Check.encryptedFilesPath);
                         break;
                     case 2:
                         fragment = new DownloadFragment();
                         break;
                     case 3:
-                        fragment = new LauncherFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
+                        fragment = LauncherFragment.newInstance(Check.encryptedFilesPath);
                         break;
                     case 4:
                         fragment = new AddFragment();
                         break;
                     case 5:
-                        fragment = new ShareFragment().newInstance("/data/data/com.example.egida/encrypted_files/");
+                        fragment = ShareFragment.newInstance(Check.encryptedFilesPath);
                         break;
                 }
 
@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -138,9 +139,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
-        super.onDestroy();
+    protected void onStop(){
+        super.onStop();
 
-
+        try {
+            Check.clearDecryptedFilesDir();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

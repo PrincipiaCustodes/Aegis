@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,7 +30,6 @@ public class DecodeFragment extends Fragment {
     RecyclerView filesList;
     TextView currentDirectory;
 
-    //private File appDirectory;
     private File[] filesAndFolders;
 
     private String selectedFile;
@@ -62,24 +63,17 @@ public class DecodeFragment extends Fragment {
         filesList = view.findViewById(R.id.decode_files_list);
         currentDirectory = view.findViewById(R.id.currentDecodeFolder);
 
-        currentDirectory.setText(selectedFile);
+        currentDirectory.setText(Check.decryptedFilesPath);
 
         filesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        filesList.setAdapter(new FileListAdapter(getActivity(), new File("/data/data/com.example.egida/shared_files/").listFiles(),  "open"));
+        filesList.setAdapter(new FileListAdapter(getActivity(), new File(Check.decryptedFilesPath).listFiles(),  "open"));
 
         try {
-            AesEncoder.decodeFile(selectedFile, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/file1.jpg");
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            Keys keys = new Keys();
+            File file = new File(selectedFile);
+            Aes256Encoder.decodeFile(file, keys.getDecipherKey(file.getName()));
+            Aes256Encoder.decodeFile(file, Check.extractedFilesPath, keys.getDecipherKey(file.getName()));
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException e) {
             e.printStackTrace();
         }
 
