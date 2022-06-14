@@ -1,25 +1,18 @@
 package com.example.egida;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +29,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         this.fun = fun;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView textView;
         ImageView imageView;
 
@@ -52,8 +45,9 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
         return data.length;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.recycler_item, parent, false));
     }
 
@@ -145,8 +139,8 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                                     .commit();
                                         }
                                     };
+
                                     biometrics.biometricsPrompt(context);
-                                    getDialog().dismiss();
                                 } else {
                                     new Password(context) {
                                         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -213,25 +207,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //File file = new File(String.valueOf(selectedFile));
-                        // Uri path = Uri.fromFile(file);
-                        // Intent openIntent = new Intent(Intent.ACTION_VIEW);
-                        // openIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);*/
-                        // openIntent.setDataAndType(path, "*/*");
-                        // context.startActivity(openIntent);
-
                         Intent intent = new Intent();
                         intent.setAction(android.content.Intent.ACTION_VIEW);
                         String type = "image/*";
                         intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
-
-                        /*Intent intent = new Intent();
-                        intent.setAction(android.content.Intent.ACTION_VIEW);
-                        Uri uri = Uri.parse("file://" + selectedFile.getAbsolutePath());
-                        intent.setDataAndType(uri,"image/*");
-                        context.startActivity(intent);*/
                     }
                 });
                 break;

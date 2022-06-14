@@ -1,44 +1,27 @@
 package com.example.egida;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
-
-/*import com.jaiselrahman.filepicker.activity.FilePickerActivity;
-import com.jaiselrahman.filepicker.config.Configurations;*/
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 import soup.neumorphism.NeumorphImageButton;
 
@@ -61,10 +44,10 @@ public class AddFragment extends Fragment {
         addFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)){
+                if(checkPermission()){
                     filePicker1();
                 } else {
-                    requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+                    requestPermission();
                 }
             }
         });
@@ -99,31 +82,27 @@ public class AddFragment extends Fragment {
             });
 
     public String getRealPathOfImageFromUri(Uri uri, Activity activity){
+        @SuppressLint("Recycle")
         Cursor cursor = activity.getContentResolver().query(uri,null,null,null,null);
         if(cursor == null){
             return uri.getPath();
-        }
-        else{
+        } else {
             cursor.moveToFirst();
             int id = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             return cursor.getString(id);
         }
     }
 
-    private boolean checkPermission(String permission) {
-        int result = ContextCompat.checkSelfPermission(getActivity(), permission);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
-        }
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void requestPermission(String permission) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permission)) {
+    private void requestPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
             Toast.makeText(getActivity(), "Please Allow Permission", Toast.LENGTH_SHORT).show();
         } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{permission}, PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
         }
     }
 }
