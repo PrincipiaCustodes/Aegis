@@ -115,7 +115,8 @@ public class GetFromServerFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void receiveFile(){
         try {
-            AesEncoder.decodeFile("/data/data/com.example.egida/shared_files/" + file, "/data/data/com.example.egida/shared_files/" + file, key);
+            //AesEncoder.decodeFile("/data/data/com.example.egida/shared_files/" + file, "/data/data/com.example.egida/shared_files/" + file, key);
+            Aes256Encoder.decodeFile(new File(Check.receivedFilesPath + file), Check.receivedFilesPath + file, key);
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
@@ -132,7 +133,7 @@ public class GetFromServerFragment extends Fragment {
 
         ((FragmentActivity)getContext()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container_for_fragments, DrawingFragment.newInstance("/data/data/com.example.egida/shared_files/"))
+                .replace(R.id.container_for_fragments, DrawingFragment.newInstance(Check.receivedFilesPath))
                 .addToBackStack(null)
                 .commit();
     }
@@ -140,7 +141,7 @@ public class GetFromServerFragment extends Fragment {
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
             //File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), file);
-            File fileIn = new File("/data/data/com.example.egida/shared_files/", file);
+            File fileIn = new File(Check.receivedFilesPath, file);
 
             InputStream inputStream = null;
             OutputStream outputStream = null;
