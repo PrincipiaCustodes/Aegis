@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -141,11 +142,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop(){
         super.onStop();
 
-        /*try {
-            Check.clearExtractedFilesDir();
+        try {
             Check.clearDecryptedFilesDir();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }
