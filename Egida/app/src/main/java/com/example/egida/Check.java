@@ -26,7 +26,7 @@ public class Check {
     public static final String openFilesPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/Aegis/OpenFiles/";
 
     @SuppressLint("SdCardPath")
-    public static final String extractedFilesPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Aegis/ExtractedFiles/";
+    public static final String extractedFilesPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/Aegis/";
 
     public static void mainDirectories(){
         File encryptedFiles = new File(encryptedFilesPath);
