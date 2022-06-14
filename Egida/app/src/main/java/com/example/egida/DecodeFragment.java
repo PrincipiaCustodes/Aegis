@@ -72,7 +72,7 @@ public class DecodeFragment extends Fragment {
             Keys keys = new Keys();
             File file = new File(selectedFile);
             Aes256Encoder.decodeFile(file, keys.getDecipherKey(file.getName()));
-            Aes256Encoder.decodeFile(file, Check.extractedFilesPath, keys.getDecipherKey(file.getName()));
+            Aes256Encoder.decodeFile(file, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), keys.getDecipherKey(file.getName()));
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException e) {
             e.printStackTrace();
         }

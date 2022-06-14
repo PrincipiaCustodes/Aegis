@@ -87,9 +87,9 @@ public class AddFragment extends Fragment {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         String filePath = getRealPathOfImageFromUri(result.getData().getData(), getActivity());
                         fileAbsolutePath = filePath;
-                        getActivity().getSupportFragmentManager().beginTransaction()
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
                                 .replace(R.id.container_for_fragments, DrawingFragment.newInstance(fileAbsolutePath))
-                                .addToBackStack(null)
                                 .commit();
                         Toast.makeText(getContext(), filePath, Toast.LENGTH_SHORT).show();
                     } else {

@@ -140,5 +140,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop(){
         super.onStop();
+
+        /*try {
+            Check.clearExtractedFilesDir();
+            Check.clearDecryptedFilesDir();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
 }

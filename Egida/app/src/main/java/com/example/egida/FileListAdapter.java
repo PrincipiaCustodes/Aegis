@@ -116,12 +116,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                     .addToBackStack(null)
                                     .commit();
                         } else {
-                            try {
-                                Check.clearExtractedFilesDir();
-                                Check.clearDecryptedFilesDir();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
                             ((FragmentActivity)context).getSupportFragmentManager()
                                     .beginTransaction()
                                     .replace(R.id.container_for_fragments, DecodeFragment.newInstance(selectedFile.getAbsolutePath()))
