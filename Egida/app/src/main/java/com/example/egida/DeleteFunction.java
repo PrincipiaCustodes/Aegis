@@ -10,16 +10,10 @@ import java.io.IOException;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class DeleteFunction {
 
-    static Keys keys;
-
     public static void deleteFile(String fileName) {
-            try {
-                keys = new Keys();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            keys.remove(fileName);
+        File fileInfo = new File(Check.filesInfoPath + fileName + ".json");
         File file = new File(Check.encryptedFilesPath, fileName);
         file.delete();
+        fileInfo.delete();
     }
 }
