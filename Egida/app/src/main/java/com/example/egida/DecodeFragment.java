@@ -69,10 +69,13 @@ public class DecodeFragment extends Fragment {
         filesList.setAdapter(new FileListAdapter(getActivity(), new File(Check.decryptedFilesPath).listFiles(),  "open"));
 
         try {
-            Keys keys = new Keys();
             File file = new File(selectedFile);
-            Aes256Encoder.decodeFile(file, keys.getDecipherKey(file.getName()));
-            Aes256Encoder.decodeFile(file, Check.extractedFilesPath, keys.getDecipherKey(file.getName()));
+
+            FilesInfo filesInfo = new FilesInfo();
+            FilesInfo.File outFileInfo = filesInfo.fromJson(new File(Check.filesInfoPath + file.getName() + ".json"));
+
+            Aes256Encoder.decodeFile(file, outFileInfo.getKey());
+            Aes256Encoder.decodeFile(file, Check.extractedFilesPath, outFileInfo.getKey());
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException e) {
             e.printStackTrace();
         }

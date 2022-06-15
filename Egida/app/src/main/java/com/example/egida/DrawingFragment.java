@@ -58,6 +58,8 @@ public class DrawingFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
+                SharedPrefs.setFILE_ID(getContext(), SharedPrefs.getFILE_ID(getContext()) + 1);
+
                 try {
                     Toast.makeText(getContext(), "/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()), Toast.LENGTH_SHORT).show();
                     File clearFile = new File("/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()));
@@ -69,7 +71,7 @@ public class DrawingFragment extends Fragment {
 
                     FilesInfo filesInfo = new FilesInfo();
                     FilesInfo.File inFileInfo = new FilesInfo.File();
-                    inFileInfo.setId(1);
+                    inFileInfo.setId(SharedPrefs.getFILE_ID(getContext()));
                     inFileInfo.setName(clearFile.getName());
                     inFileInfo.setExtension(clearFile.getName().split("\\.")[1]);
                     inFileInfo.setSize(clearFile.length());

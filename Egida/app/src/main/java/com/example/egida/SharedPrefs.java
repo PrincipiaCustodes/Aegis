@@ -13,6 +13,7 @@ public class SharedPrefs {
     public final static String BIOMETRICS_STATUS = "biometrics_status";
     public final static String SIGNUP_STATUS = "signup_status";
     public final static String FIRST_START = "is_first_start";
+    public final static String FILE_ID = "file_id";
 
     public static void setPASSWORD(Context currentContext, String password) throws NoSuchAlgorithmException {
         SharedPreferences sharedPref = currentContext.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
@@ -80,5 +81,17 @@ public class SharedPrefs {
     public static Boolean getFIRST_START(Context currentContext){
         SharedPreferences sharedPref = currentContext.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
         return sharedPref.getBoolean(FIRST_START, false);
+    }
+
+    public static void setFILE_ID(Context currentContext, int file_id){
+        SharedPreferences sharedPref = currentContext.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(FILE_ID, file_id);
+        editor.apply();
+    }
+
+    public static int getFILE_ID(Context currentContext){
+        SharedPreferences sharedPref = currentContext.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE);
+        return sharedPref.getInt(FILE_ID, 1);
     }
 }

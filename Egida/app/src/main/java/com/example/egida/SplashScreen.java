@@ -36,6 +36,10 @@ public class SplashScreen extends AppCompatActivity {
         } else {
             startNextActivity(SignUpActivity.class);
         }
+
+        if(SharedPrefs.getFIRST_START(this).equals(true)){
+            SharedPrefs.setFILE_ID(this, 0);
+        }
     }
 
     private void startNextActivity(Class nextActivity){
