@@ -84,7 +84,6 @@ public class GetFromServerFragment extends Fragment {
         textFromServer.setText(key);
 
         downloadFile(ip + "/" + file);
-        receiveFile();
 
         return view;
     }
@@ -97,11 +96,16 @@ public class GetFromServerFragment extends Fragment {
         Call<ResponseBody> call = jsonServerAPI.downloadFile(url);
 
         call.enqueue(new Callback<ResponseBody>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 boolean success = writeResponseBodyToDisk(response.body());
 
                 Toast.makeText(getContext(), "Connection successful!" + success, Toast.LENGTH_SHORT).show();
+
+                if(success){
+                    receiveFile();
+                }
             }
 
             @Override
@@ -113,23 +117,22 @@ public class GetFromServerFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void receiveFile(){
+        File receivedFile = new File(Check.receivedFilesPath + file);
         try {
-            //AesEncoder.decodeFile("/data/data/com.example.egida/shared_files/" + file, "/data/data/com.example.egida/shared_files/" + file, key);
-            Aes256Encoder.decodeFile(new File(Check.receivedFilesPath + file), Check.encryptedFilesPath + file, key);
+            Aes256Encoder.decodeFile(receivedFile, Check.openFilesPath, key);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException e) {
             e.printStackTrace();
         }
 
         ((FragmentActivity)getContext()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.container_for_fragments, DrawingFragment.newInstance(Check.receivedFilesPath))
+                .replace(R.id.container_for_fragments, DrawingFragment.newInstance(Check.openFilesPath))
                 .addToBackStack(null)
                 .commit();
     }
 
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
-            //File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), file);
             File fileIn = new File(Check.receivedFilesPath, file);
 
             InputStream inputStream = null;
