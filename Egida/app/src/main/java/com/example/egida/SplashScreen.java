@@ -23,12 +23,6 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
-            Keys keys = new Keys();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         SharedPrefs.setFIRST_START(this, true);
 
         if(SharedPrefs.getSIGNUP_STATUS(this).equals(getString(R.string.signup_status_created))){

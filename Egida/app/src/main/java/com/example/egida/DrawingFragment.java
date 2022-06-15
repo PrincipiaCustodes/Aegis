@@ -64,9 +64,6 @@ public class DrawingFragment extends Fragment {
                     Toast.makeText(getContext(), "/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()), Toast.LENGTH_SHORT).show();
                     File clearFile = new File("/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()));
 
-                    Keys keys = new Keys();
-                    keys.setValues(clearFile.getName(), DrawingView.getKey());
-
                     Aes256Encoder.encodeFile(clearFile, DrawingView.getKey());
 
                     FilesInfo filesInfo = new FilesInfo();

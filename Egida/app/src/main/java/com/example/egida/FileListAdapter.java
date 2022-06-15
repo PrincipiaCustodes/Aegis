@@ -131,7 +131,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                         @RequiresApi(api = Build.VERSION_CODES.O)
                                         @Override
                                         public void nextAction() {
-                                            DeleteFunction.deleteFile(selectedFile.getName());
+                                            Check.deleteFile(selectedFile.getName());
                                             ((FragmentActivity) context).getSupportFragmentManager()
                                                     .beginTransaction()
                                                     .replace(R.id.container_for_fragments, DeleteFragment.newInstance(Check.encryptedFilesPath))
@@ -146,7 +146,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHo
                                         @RequiresApi(api = Build.VERSION_CODES.O)
                                         @Override
                                         public void passwordCorrectAction() {
-                                            DeleteFunction.deleteFile(selectedFile.getName());
+                                            Check.deleteFile(selectedFile.getName());
                                         }
                                     };
 
