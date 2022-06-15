@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Keys {
 
@@ -59,10 +61,14 @@ public class Keys {
     }
         @RequiresApi(api = Build.VERSION_CODES.O)
     public void recoverFromJson() throws IOException {
-        File file = new File("/data/data/com.example.egida/app_files/", "keys.json");
         Gson gson = new Gson();
-        byte[] encoded = Files.readAllBytes(Paths.get("/data/data/com.example.egida/app_files/keys.json"));
-        String json = new String(encoded, StandardCharsets.US_ASCII);
+        File keysFile = new File("/data/data/com.example.egida/app_files/keys.json");
+        //byte[] encoded = Files.readAllBytes(Paths.get(("/data/data/com.example.egida/app_files/keys.json")));
+            // byte[] encoded = Files.readAllBytes(new File("/data/data/com.example.egida/app_files/keys.json").toPath());
+            FileInputStream fis = new FileInputStream(keysFile);
+        //String json = new String(encoded, StandardCharsets.US_ASCII);
+            Scanner scanner = new Scanner(fis);
+            String json = scanner.nextLine();
         keys = gson.fromJson(json, HashMap.class);
     }
 

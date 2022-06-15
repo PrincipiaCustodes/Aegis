@@ -35,6 +35,8 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+        Check.mainDirectories();
+
         getWindow().setNavigationBarColor(getResources().getColor(R.color.black));
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 

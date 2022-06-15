@@ -98,15 +98,14 @@ public class GetFromServerFragment extends Fragment {
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                assert response.body() != null;
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 boolean success = writeResponseBodyToDisk(response.body());
 
                 Toast.makeText(getContext(), "Connection successful!" + success, Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Connection failure!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -116,7 +115,7 @@ public class GetFromServerFragment extends Fragment {
     private void receiveFile(){
         try {
             //AesEncoder.decodeFile("/data/data/com.example.egida/shared_files/" + file, "/data/data/com.example.egida/shared_files/" + file, key);
-            Aes256Encoder.decodeFile(new File(Check.receivedFilesPath + file), Check.receivedFilesPath + file, key);
+            Aes256Encoder.decodeFile(new File(Check.receivedFilesPath + file), Check.encryptedFilesPath + file, key);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException e) {
             e.printStackTrace();
         }
