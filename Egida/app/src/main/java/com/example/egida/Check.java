@@ -69,4 +69,11 @@ public class Check {
         File extractedFiles = new File(extractedFilesPath);
         FileUtils.cleanDirectory(extractedFiles);
     }
+
+    public static void deleteFile(String fileName) {
+        File fileInfo = new File(Check.filesInfoPath + fileName + ".json");
+        File file = new File(Check.encryptedFilesPath, fileName);
+        file.delete();
+        fileInfo.delete();
+    }
 }

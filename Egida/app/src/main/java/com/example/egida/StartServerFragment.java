@@ -27,10 +27,12 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.File;
+import java.io.IOException;
+
 public class StartServerFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-    private String mParam1;
 
     Button genButton;
     ImageView qrCode;
@@ -39,8 +41,6 @@ public class StartServerFragment extends Fragment {
     Switch serverState;
 
     private String fileName;
-    private String extension;
-
 
     public StartServerFragment() {}
 
@@ -60,12 +60,6 @@ public class StartServerFragment extends Fragment {
                 fileName = "";
             } else {
                 fileName = getArguments().getString(ARG_PARAM1).substring(getArguments().getString(ARG_PARAM1).lastIndexOf("/") + 1);
-            }
-
-            if(getArguments().getString(ARG_PARAM1).lastIndexOf(".") == -1){
-                extension = "";
-            } else {
-                extension = getArguments().getString(ARG_PARAM1).substring(getArguments().getString(ARG_PARAM1).lastIndexOf(".") + 1);
             }
         }
     }
@@ -87,8 +81,16 @@ public class StartServerFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), Keys.getDecipherKey(fileName), Toast.LENGTH_SHORT).show();
-                createQrCode();
+                try {
+                    Toast.makeText(getContext(), getKey(), Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    createQrCode();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -110,7 +112,7 @@ public class StartServerFragment extends Fragment {
         return view;
     }
 
-    private void createQrCode(){
+    private void createQrCode() throws IOException {
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
             BitMatrix bitMatrix = multiFormatWriter.encode(createQrCodeMessage(), BarcodeFormat.QR_CODE, 350, 350);
@@ -123,7 +125,7 @@ public class StartServerFragment extends Fragment {
         }
     }
 
-    private String createQrCodeMessage(){
+    private String createQrCodeMessage() throws IOException {
         StringBuffer qrCodeMessage = new StringBuffer();
         qrCodeMessage.append("http://")
                 .append(getIP())
@@ -132,20 +134,18 @@ public class StartServerFragment extends Fragment {
                 .append("|")
                 .append(fileName)
                 .append("|")
-                .append(Keys.getDecipherKey(fileName));
+                .append(getKey());
 
         return qrCodeMessage.toString();
     }
 
     private String getIP(){
-        //WifiManager wifiManager = ;
         return Formatter.formatIpAddress(((WifiManager)getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getIpAddress());
     }
 
-
-    private String getKey(){
-        // TODO: Миша, нужно передать сюда ключ для расшифровки
-        String key = "UKYQ74fBMd+nq9SyUUBrCw==";
-        return key;
+    private String getKey() throws IOException {
+        FilesInfo filesInfo = new FilesInfo();
+        FilesInfo.File outFileInfo = filesInfo.fromJson(new File(Check.filesInfoPath + fileName + ".json"));
+        return outFileInfo.getKey();
     }
 }

@@ -58,12 +58,24 @@ public class DrawingFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
+                SharedPrefs.setFILE_ID(getContext(), SharedPrefs.getFILE_ID(getContext()) + 1);
+
                 try {
                     Toast.makeText(getContext(), "/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()), Toast.LENGTH_SHORT).show();
-                    File decryptedFile = new File("/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()));
-                    Aes256Encoder.encodeFile(decryptedFile, DrawingView.getKey());
-                    Keys keys = new Keys();
-                    keys.setValues(decryptedFile.getName(), DrawingView.getKey());
+                    File clearFile = new File("/sdcard" + decryptedFilePath.substring(19, decryptedFilePath.length()));
+
+                    Aes256Encoder.encodeFile(clearFile, DrawingView.getKey());
+
+                    FilesInfo filesInfo = new FilesInfo();
+                    FilesInfo.File inFileInfo = new FilesInfo.File();
+                    inFileInfo.setId(SharedPrefs.getFILE_ID(getContext()));
+                    inFileInfo.setName(clearFile.getName());
+                    inFileInfo.setExtension(clearFile.getName().split("\\.")[1]);
+                    inFileInfo.setSize(clearFile.length());
+                    inFileInfo.setKey(DrawingView.getKey());
+                    inFileInfo.setDate(String.valueOf(System.currentTimeMillis()));
+                    filesInfo.toJson(inFileInfo);
+
                 } catch (IOException | NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
                     e.printStackTrace();
                 }

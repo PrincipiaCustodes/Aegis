@@ -118,9 +118,9 @@ public class DrawingView extends View {
             circlePath.reset();
             circlePath.addCircle(mX, mY, 30, Path.Direction.CW);
         }
-        Integer tmp = Math.round(dx) + Math.round(dy);
+        int tmp = Math.round(dx) + Math.round(dy);
 
-        ShaEncoder encoder = new ShaEncoder(tmp.toString());
+        ShaEncoder encoder = new ShaEncoder(Integer.toString(tmp));
 
         seed += encoder.sha256EncodeInput().substring(0, 3);
         if (seed.length() > 16)
